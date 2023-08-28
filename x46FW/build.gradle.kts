@@ -14,8 +14,18 @@ plugins {
     `java-library`
 }
 
+val PRER = false
+val VID = "1.0"
+
+
 group = "com.trs.x46FW"
-version = "1.0-SNAPSHOT"
+version = if (PRER) {
+    "$VID-SNAPSHOT"
+}
+else
+{
+    VID
+}
 
 repositories {
     // Use Maven Central for resolving dependencies.
