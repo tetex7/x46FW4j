@@ -1,5 +1,5 @@
 /**
- * <h1>FOR INTERNAL USE ONLY</h1>
- * <b>x46FW's</b> internal package
+ * <h1>FOR INTERNAL X46FW USE ONLY</h1>
+ * x46FW's internal package
  */
 package com.trs.x46FW.internal;

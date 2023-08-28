@@ -88,14 +88,28 @@ interface IDemon
                 GNAME
         )
     }
-    //val rrun:() -> Unit
-    //fun run()
 }
 
 const val RESV:Short = -5
 
 /**
  * Creates a [IDemon] that runs the specified [block] of code.
+ * ```kt
+ * import com.trs.x46FW.DSS.DEM_MK
+ * import com.trs.x46FW.DSS.DMAN
+ *
+ * fun main()
+ * {
+ *      val dman = DMAN()
+ *
+ *      val o = DEM_MK(PRI = 15) {
+ *          println(this.Name)
+ *      }
+ *
+ *      dman add o
+ * }
+ * ```
+ *
  * @param block a block of code to run
  * @param name the name of the [IDemon]
  * @param PRI the priority of [IDemon] for the [DMAN_SCH]

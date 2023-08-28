@@ -10,7 +10,28 @@ import com.trs.x46FW.internal.wintest
 import com.trs.x46FW.utils.*
 import java.util.Vector
 
-
+/**
+ * The Demon management
+ *
+ * ```kt
+ * import com.trs.x46FW.DSS.DEM_MK
+ * import com.trs.x46FW.DSS.DMAN
+ *
+ * fun main()
+ * {
+ *      val dman = DMAN()
+ *
+ *      val o = DEM_MK(PRI = 15) {
+ *          println(this.Name)
+ *      }
+ *
+ *      dman add o
+ * }
+ * ```
+ *
+ * @see IDemon
+ * @author Tete
+ */
 @x46FW_API
 class DMAN(ST: FLAG = true)
 {
@@ -82,7 +103,10 @@ class DMAN(ST: FLAG = true)
         PAS = true
     }
 
-    fun map_srink(): Nothing = TODO()
+    fun map_srink()
+    {
+        DMANa.msc(this.DA, this.SCH)
+    }
     /*{
         println("dd")
         val Cx: Vector<Map.Entry<String, Pair<IDemon, Thread>>> = Vector()

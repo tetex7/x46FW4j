@@ -39,12 +39,7 @@ fun <bi : Number> bi.toBool(): Boolean
     return (abs(DAT) <= 1)
 }
 
-/*fun java.lang.String.toBool()
-{
-
-}*/
-
-fun <bi: CharSequence> bi.toBool(): Boolean
+fun <bi: String> bi.toBool(): Boolean
 {
     for (v in this)
     {
@@ -53,7 +48,7 @@ fun <bi: CharSequence> bi.toBool(): Boolean
             throw IllegalArgumentException("is")
         }
     }
-    val DAT = (this as String).toInt()
+    val DAT = (this).toInt()
     return DAT.toBool()
 }
 
