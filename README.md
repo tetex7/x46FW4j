@@ -37,6 +37,6 @@ AKA, ***The-Framework*** and for legacy purposes, *x46-IPP*. let's get to the me
 ##   ###   ##
 -->
 
-It is designed to work with every project from Robots to Little Gadgets in this instance ***The JVM**
+It is designed to work with every project from Robots to Little Gadgets in this instance ***The JVM***
 <!-- <a href="./documentation"><h3>More Info in The Documentation.</h3></a>
 <h3>More Documentation Comeing Soon.</h3> -->
