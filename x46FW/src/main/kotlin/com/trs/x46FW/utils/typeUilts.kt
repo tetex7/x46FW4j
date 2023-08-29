@@ -9,7 +9,7 @@ import java.lang.ref.Reference
 import kotlin.math.abs
 
 /**
- * [FLAG] is just [Boolean] flag
+ * [FLAG] is just a [Boolean] flag
  */
 typealias FLAG = Boolean
 //typealias Mutx = Any
@@ -131,6 +131,17 @@ fun Array<UByte>.toByte(): Array<Byte>
         o[i] = this[i].toByte()
     }
     return o
+}
+
+
+operator fun <bi: Number> Char.times(by:bi):String
+{
+    var str = ""
+    for (i in 0..by.toLong())
+    {
+        str += this
+    }
+    return str
 }
 
 fun <bi : Any> Array<bi>.toString(): String
