@@ -433,7 +433,7 @@ class DMAN(ST: FLAG = true)
                 //tc_m.lock()
             synchronized(tc_m)
             {
-                    TC--
+                TC--
             }
 
             v.run()

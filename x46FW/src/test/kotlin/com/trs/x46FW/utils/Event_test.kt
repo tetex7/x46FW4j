@@ -1,4 +1,4 @@
-package com.trs.x46FW
+package com.trs.x46FW.utils
 
 import com.trs.x46FW.utils.Event
 import org.junit.jupiter.api.Test

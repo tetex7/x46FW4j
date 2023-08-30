@@ -1,4 +1,4 @@
-package com.trs.x46FW
+package com.trs.x46FW.DSS
 
 import com.trs.x46FW.DSS.DEM_MK
 import com.trs.x46FW.DSS.DMAN

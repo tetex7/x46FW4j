@@ -33,13 +33,13 @@ fun Char.toSH(): Short
     return this.code.toShort()
 }
 
-fun <bi : Number> bi.toBool(): Boolean
+fun Number.toBool(): Boolean
 {
     val DAT = this.toInt()
     return (abs(DAT) <= 1)
 }
 
-fun <bi: String> bi.toBool(): Boolean
+fun String.toBool(): Boolean
 {
     for (v in this)
     {
@@ -134,7 +134,7 @@ fun Array<UByte>.toByte(): Array<Byte>
 }
 
 
-operator fun <bi: Number> Char.times(by:bi):String
+operator fun Char.times(by:Number):String
 {
     var str = ""
     for (i in 0..by.toLong())
@@ -144,7 +144,7 @@ operator fun <bi: Number> Char.times(by:bi):String
     return str
 }
 
-fun <bi : Any> Array<bi>.toString(): String
+fun <bi> Array<bi>.toString(): String
 {
     wintest()
     var ou = String()
