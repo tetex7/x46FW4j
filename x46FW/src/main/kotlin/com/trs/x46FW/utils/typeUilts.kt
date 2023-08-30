@@ -149,7 +149,7 @@ fun <bi : Any> Array<bi>.toString(): String
     wintest()
     var ou = String()
     ou = "[ "
-    var i = 0
+    //var i = 0
     for (i in 0 .. this.size)
     {
         if (i == (this.size - 1))

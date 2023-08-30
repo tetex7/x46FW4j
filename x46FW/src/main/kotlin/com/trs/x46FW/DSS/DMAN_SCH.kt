@@ -9,7 +9,7 @@ import kotlin.concurrent.thread
 
 //import kotlinx.
 /**
- * scheduler for [DMAN] and stack holder
+ * scheduler for [DMAN] and [Stack] holder
  * @param dvcall the local ctx for scheduling
  * @see DMAN
  */

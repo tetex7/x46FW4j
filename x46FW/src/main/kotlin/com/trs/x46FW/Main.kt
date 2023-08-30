@@ -9,7 +9,7 @@ private fun test_all()
     val dMAN = DMAN()
     val ff = DEM_MK(name = "teat") {
         println(this.DMA?.TC!!)
-        println("${this.Name} IS\n${this.THR.name}")
+        println("${this.name} IS\n${this.THR.name}")
     }
     val t = DEM_MK(name = "fd") {
         //println("YOUR FUCKED")

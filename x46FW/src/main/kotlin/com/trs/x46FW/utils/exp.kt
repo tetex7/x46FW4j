@@ -29,6 +29,7 @@ inline fun <bi : Number> MK_ECODE(TOP_CODE:TOP_CODES, SUP_CODE:bi): Int
 
 
 @x46FW_API
+@Deprecated("")
 fun assert(value: Boolean, ex:Boolean = false): Boolean
 {
     wintest()
@@ -144,7 +145,7 @@ fun <bi> TRY(NO_EX: FLAG = false, err_box: FLAG = false, exit: FLAG = true, code
                     }
                 }
 
-                //XDMAN[ol.Name] = ol
+                //XDMAN[ol.name] = ol
                 return TRY_DATA(false, EX_DATA(ex), null, ty)
             }
             exp(ex, ex.message ?: "NO_MSG", err_box, exit, code, TI)

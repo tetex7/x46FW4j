@@ -9,7 +9,7 @@ class Event_test
     fun ev_test()
     {
         var ev:Event = Event(tr = true) {
-            println("FUCK")
+            println("test")
         }
 
         ev()

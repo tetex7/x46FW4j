@@ -22,7 +22,7 @@ import java.util.Vector
  *      val dman = DMAN()
  *
  *      val o = DEM_MK(PRI = 15) {
- *          println(this.Name)
+ *          println(this.name)
  *      }
  *
  *      dman add o
@@ -37,9 +37,8 @@ class DMAN(ST: FLAG = true)
 {
     companion object
     {
-        //val DMAN = DMAN()
         const val MAX_THRD = 10
-        const val MAX_THRD_AOC = 100
+        //const val MAX_THRD_AOC = 100
         internal val df = btc.df()
     }
 
@@ -81,7 +80,7 @@ class DMAN(ST: FLAG = true)
     operator fun contains(d: IDemon):Boolean
     {
         return try {
-            DA[d.Name]
+            DA[d.name]
             true
         } catch (ex:Exception) {
             false
@@ -159,20 +158,18 @@ class DMAN(ST: FLAG = true)
 
     infix fun frun(name_str:String)
     {
-
         ther_aoc(name_str)
-        //NOW_SCH = true
     }
 
     infix fun frun(Id:IDemon)
     {
-        if (DA[Id.Name] == null)
+        if (DA[Id.name] == null)
         {
             this add Id
         }
         //wintest()
         //DA[name_str]?.first?.PRI = 15
-        ther_aoc(Id.Name)
+        ther_aoc(Id.name)
         //NOW_SCH = true
     }
 
@@ -248,7 +245,7 @@ class DMAN(ST: FLAG = true)
     infix fun sch_rq(d:IDemon)
     {
             //show_sat_rq()
-        set(d.Name, d)
+        set(d.name, d)
         NOW_SCH = true
 
     }
@@ -257,13 +254,13 @@ class DMAN(ST: FLAG = true)
     {
 
         show_sat_rq()
-        set(d.Name, d)
+        set(d.name, d)
     }
 
     infix fun sch_remove_rq(d:IDemon)
     {
         show_sat_rq()
-        DA.remove(d.Name)
+        DA.remove(d.name)
         NOW_SCH = true
     }
 
@@ -277,7 +274,7 @@ class DMAN(ST: FLAG = true)
 
     infix fun add(d:IDemon)
     {
-        this[d.Name] = d
+        this[d.name] = d
     }
     private final fun thr_clean()
     {
@@ -358,7 +355,7 @@ class DMAN(ST: FLAG = true)
 
     operator fun minus(other: IDemon)
     {
-        DA remov other.Name
+        DA remov other.name
         SCH.nuc()
     }
 
@@ -369,7 +366,7 @@ class DMAN(ST: FLAG = true)
 
     operator fun div(other: IDemon)
     {
-        DA remov other.Name
+        DA remov other.name
     }
 
     val sch_vet:Vector<Pair<String, IDemon>>

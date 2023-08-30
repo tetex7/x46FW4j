@@ -15,17 +15,11 @@ plugins {
 }
 
 val PRER = false
-val VID = "1.0"
+val VID = "1.1"
 
 
 group = "com.trs.x46FW"
-version = if (PRER) {
-    "$VID-SNAPSHOT"
-}
-else
-{
-    VID
-}
+version = if (PRER) "$VID-SNAPSHOT" else VID
 
 repositories {
     // Use Maven Central for resolving dependencies.

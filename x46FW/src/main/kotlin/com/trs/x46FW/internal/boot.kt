@@ -35,8 +35,8 @@ fun boot(): Int {
         return 0
     }
     XDMAN[".Fboot"] = DEM_MK(PRI = 14, name = ".Fboot", _uuid = UUID.fromString("6607833d-9e8b-47f1-8e14-bfb5f2dc12ce")) {
-        println(this.Name)
-        println(this.THR.name)
+        //println(this.name)
+        //println(this.THR.name)
         //D.DMA?.map_srink()
         //println("d")
     }

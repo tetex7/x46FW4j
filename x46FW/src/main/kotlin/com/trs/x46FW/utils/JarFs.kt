@@ -9,7 +9,7 @@ import java.io.InputStream
 internal fun filegetr(p: String): String
 {
     wintest()
-    var fi: String
+    val fi: String
     if (p.startsWith("JAR:/"))
     {
         fi = p.replace("JAR:/", "")

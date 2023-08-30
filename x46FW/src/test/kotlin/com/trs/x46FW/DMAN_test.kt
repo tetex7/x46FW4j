@@ -12,7 +12,7 @@ class DMAN_test
     {
         override val uuid: UUID = UUID.randomUUID()
         override var R: FLAG = false
-        override val Name: String = "Dt1"
+        override val name: String = "Dt1"
         override var E: FLAG = false
         override val D: FLAG = false
         override val DID:Short = 586
@@ -31,7 +31,7 @@ class DMAN_test
     {
         override val uuid: UUID = UUID.randomUUID()
         override var R: FLAG = false
-        override val Name: String = "Dt2"
+        override val name: String = "Dt2"
         override var E: FLAG = false
         override val D: FLAG = false
         override val DID:Short = 586

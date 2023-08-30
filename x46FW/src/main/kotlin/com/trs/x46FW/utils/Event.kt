@@ -2,6 +2,10 @@ package com.trs.x46FW.utils
 
 import kotlin.concurrent.thread
 
+
+/**
+ * @since 1.0
+ */
 class Event(tr:FLAG = false, _block: () -> Unit)
 {
 

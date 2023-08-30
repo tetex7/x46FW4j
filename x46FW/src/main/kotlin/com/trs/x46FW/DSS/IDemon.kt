@@ -2,9 +2,10 @@
 
 package com.trs.x46FW.DSS
 
+import com.trs.x46FW.utils.Event
 import com.trs.x46FW.utils.FLAG
+import java.util.*
 import kotlin.random.Random
-import java.util.UUID
 
 /*enum class DPRI(va:Short)
 {
@@ -33,6 +34,44 @@ fun Short.toDPRI(): DPRI
 
 /**
  * [IDemon] is the base structure for a demon on an instance of [DMAN]
+ *
+ * ```
+ * object Inc_and_Print : IDemon {
+ *      override val uuid: UUID = UUID.randomUUID()
+ *      override var R: FLAG = false
+ *      override val name: String = "Inc_and_Print"
+ *      override var DMA:DMAN? = null
+ *      override var E: FLAG = false
+ *      override val D: FLAG = false
+ *      override val THR: Thread = Thread.currentThread()
+ *      override val DID:Short = Random.nextInt(Short.MAX_VALUE.toInt()).toShort()
+ *      override var STAT: TR_STAT = TR_STAT.TR_NA
+ *      override var PRI:Short = 10
+ *      override val GNAME: String = "${this.name}-($uuid)-[$DID]"
+ *
+ *      fun prit()
+ *      {
+ *          for(i in 0 .. 10)
+ *          {
+ *              println(i)
+ *          }
+ *      }
+ *
+ *      override val run: () -> Unit = rRET@{
+ *          R = true
+ *          STAT = TR_STAT.TR_OK
+ *          prit()
+ *          if (E)
+ *          {
+ *              STAT = TR_STAT.TR_ERR
+ *              return@rRET
+ *          }
+ *          STAT = TR_STAT.TR_STOPED
+ *          R = false
+ *      }
+ * }
+ * ```
+ *
  * @see DEM_MK
  * @see DMAN
  * @author Tete
@@ -48,7 +87,7 @@ interface IDemon
     /**
      * the name of the demon
      */
-    val Name:String
+    val name:String
     val GNAME:String
     var DMA:DMAN?
     var R: FLAG
@@ -57,12 +96,32 @@ interface IDemon
     val THR:Thread
     var STAT:TR_STAT
     val DID:Short
+
+    /**
+     * the priority of [IDemon] for the [DMAN_SCH]
+     */
     var PRI:Short
     val uuid:UUID
 
     /**
      * runs the IDemon on the local [DMAN] through [D]
      * on the back end it runs [DMAN.frun]
+     * ```
+     * import com.trs.x46FW.DSS.DEM_MK
+     * import com.trs.x46FW.DSS.DMAN
+     *
+     * fun main()
+     * {
+     *      val dman = DMAN()
+     *
+     *      val damon = DEM_MK(PRI = 15) {
+     *          println(this.name)
+     *      }
+     *
+     *      damon(dman)
+     * }
+     * ```
+     *
      * @param D the local [DMAN]
      * @see DMAN.frun
      * @see DEM_MK
@@ -73,10 +132,36 @@ interface IDemon
         D frun this
     }
 
+    /**
+     * runs the IDemon through a [Event] never hitting a [DMAN] or a [DMAN_SCH]'s stack
+     * ```
+     * import com.trs.x46FW.DSS.DEM_MK
+     *
+     * fun main()
+     * {
+     *
+     *      val damon = DEM_MK(PRI = 15) {
+     *          println(this.name)
+     *      }
+     *
+     *      damon()
+     * }
+     * ```
+     *
+     * @see com.trs.x46FW.utils.Event
+     * @see DEM_MK
+     * @author Tete
+     */
+    operator fun invoke()
+    {
+        val V:Event = Event(true, this.run)
+        V()
+    }
+
     fun DAT_BLOCK():IDemon_DAT_BLOCK
     {
         return IDemon_DAT_BLOCK(
-                Name,
+                name,
                 R,
                 E,
                 D,
@@ -103,7 +188,7 @@ const val RESV:Short = -5
  *      val dman = DMAN()
  *
  *      val o = DEM_MK(PRI = 15) {
- *          println(this.Name)
+ *          println(this.name)
  *      }
  *
  *      dman add o
@@ -128,7 +213,7 @@ fun DEM_MK(
     val ID = object : IDemon {
         override val uuid: UUID = _uuid
         override var R: FLAG = false
-        override val Name: String = name
+        override val name: String = name
         override var DMA:DMAN? = null
         override var E: FLAG = false
         override val D: FLAG = false
@@ -136,7 +221,7 @@ fun DEM_MK(
         override val DID:Short = did
         override var STAT: TR_STAT = TR_STAT.TR_NA
         override var PRI:Short = PRI
-        override val GNAME: String = "$Name-($uuid)-[$DID]"
+        override val GNAME: String = "${this.name}-($uuid)-[$DID]"
         override fun toString(): String
         {
             return this.DAT_BLOCK().toString()
