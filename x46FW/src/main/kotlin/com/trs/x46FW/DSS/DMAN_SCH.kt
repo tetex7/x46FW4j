@@ -18,6 +18,8 @@ class DMAN_SCH(dvcall: DMAN)
 {
     final val SCH_lock:Lock = Lock()
 
+    val FAS:FLAG = true
+
     final var VET = Stack<Pair<String, IDemon>>()
         get() = run RET@{
             synchronized(SCH_lock)

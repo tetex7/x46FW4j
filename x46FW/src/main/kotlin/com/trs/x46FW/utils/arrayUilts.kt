@@ -47,6 +47,7 @@ fun <bi> Array<bi>.toVet():Vector<bi>
 }
 
 
+
 /*inline infix fun <bi> Array<bi>.append(ad:Array<bi>)
 {
     val f = this.toVet()

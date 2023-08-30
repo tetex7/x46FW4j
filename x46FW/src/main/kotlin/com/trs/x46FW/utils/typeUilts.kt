@@ -2,24 +2,18 @@
 
 package com.trs.x46FW.utils
 
-import com.trs.x46FW.DSS.IDemon
+
 //import com.trs.x46FW.DSS.wintest
 import com.trs.x46FW.internal.wintest
-import java.lang.ref.Reference
+
 import kotlin.math.abs
 
-/**
- * [FLAG] is just a [Boolean] flag
- */
-typealias FLAG = Boolean
-//typealias Mutx = Any
-/**
- * a dummy object for [synchronized]
- */
-typealias Lock = Any
-internal typealias DMAN_DAT_BUFF = HashMap<String, Pair<IDemon, Thread>>
 
-typealias  ref<bi> = Reference<bi>
+fun Number.toSFstring(): String
+{
+    return if(!(this.toInt() > 10)) "0${this.toInt()}" else this.toInt().toString()
+}
+
 
 fun Boolean.toStrY():String
 {

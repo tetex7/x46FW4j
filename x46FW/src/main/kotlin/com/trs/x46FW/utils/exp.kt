@@ -13,18 +13,18 @@ import kotlin.system.exitProcess
 import kotlin.system.measureTimeMillis
 
 data class EX_DATA(val row_ex:Throwable?, val cex: Ix46FW_error? = row_ex?.to_x46FW_err())
-data class TRY_DATA<out bi>(val exed:Boolean, val ex_data: EX_DATA, val rd:bi?, val time:Long = 0)
+data class TRY_DATA<out bi>(val exed:FLAG, val ex_data: EX_DATA, val rd:bi?, val time:Long = 0)
 
-inline fun <bi1 : Number, bi2 : Number> MK_ECODE(TOP_CODE:bi1, SUP_CODE:bi2): Int
+inline fun MK_ECODE(TOP_CODE:Number, SUP_CODE:Number): Int
 {
     wintest()
     return (TOP_CODE.toInt() + SUP_CODE.toInt())
 }
 
-inline fun <bi : Number> MK_ECODE(TOP_CODE:TOP_CODES, SUP_CODE:bi): Int
+inline fun MK_ECODE(TOP_CODE:TOP_CODES, SUP_CODE:Number): Int
 {
     wintest()
-    return (TOP_CODE.`val` + SUP_CODE.toInt())
+    return (TOP_CODE + SUP_CODE.toInt())
 }
 
 
@@ -60,7 +60,7 @@ fun assert(value: Boolean, ex:Boolean = false): Boolean
 }
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun <bi: Throwable> exp(ex: bi, msg_pt:String, msg_box:Boolean = false, exit:Boolean = false, code:Int = 100, TI:String = "", thr:Thread? = null)
+inline fun exp(ex:Throwable, msg_pt:String, msg_box:Boolean = false, exit:Boolean = false, code:Int = 100, TI:String = "", thr:Thread? = null)
 {
     //wintest()
 

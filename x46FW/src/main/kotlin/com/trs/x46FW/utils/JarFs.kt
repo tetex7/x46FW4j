@@ -28,6 +28,12 @@ internal fun filegetr(p: String): String
     return fi
 }
 
+fun getfileStr(path: String): String
+{
+    wintest()
+    val d: Any = Any()
+    return d.getfileStr(path)!!
+}
 
 fun getfile(path: String): InputStream
 {
@@ -50,6 +56,19 @@ fun  <bi : Any> bi.getfile(path: String): InputStream?
         return@RET this.javaClass
                 .classLoader
                 .getResourceAsStream(filegetr(path)) ?: throw IllegalArgumentException("${path} is not found\n\tBREAK TO \"${filegetr(path)}\"")
+    }
+    return o.rd
+}
+
+
+fun  <bi : Any> bi.getfileStr(path: String): String?
+{
+    //var cbuf:Array<Char> = a
+    wintest()
+    val o = TRY(NO_EX = false, code = MK_ECODE(TOP_CODES.JARFS_C, 20)) RET@{
+        return@RET this.javaClass
+                .classLoader
+                .getResourceAsStream(filegetr(path))?.reader()?.readText() ?: throw IllegalArgumentException("${path} is not found\n\tBREAK TO \"${filegetr(path)}\"")
     }
     return o.rd
 }

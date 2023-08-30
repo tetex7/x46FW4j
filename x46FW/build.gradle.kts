@@ -61,6 +61,7 @@ allOpen {
 
 val p = project
 tasks.jar {
+    //dependsOn(tasks.named<Test>("test").get())
     manifest {
         //attributes["Main-Class"] = "com.trs.x46FW.MainKt"
         attributes["Implementation-Title"] = project.name
@@ -77,6 +78,7 @@ tasks.jar {
         println("JAR NAME:\n\t\"${rootProject.name}-${version}.jar\"")
         //p.task<Test>("test")
         //println("PAK NAME:\n\t\"${group.}\"")
+        //doLast(tasks.named<Test>("test").get())
     }
 }
 
