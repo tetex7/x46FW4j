@@ -14,12 +14,13 @@ plugins {
     `java-library`
 }
 
+val PRER_V = "2.0"
 val PRER = false
 val VID = "1.1"
 
 
 group = "com.trs.x46FW"
-version = if (PRER) "$VID-SNAPSHOT" else VID
+version = if (PRER) "$PRER_V-SNAPSHOT" else VID
 
 repositories {
     // Use Maven Central for resolving dependencies.
