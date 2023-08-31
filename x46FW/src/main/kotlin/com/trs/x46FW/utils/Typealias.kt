@@ -20,7 +20,6 @@ typealias JInt = java.lang.Integer
  */
 typealias Lock = Any
 internal typealias DMAN_DAT_BUFF = HashMap<String, Pair<IDemon, Thread>>
-typealias Log_Level = System.Logger.Level
 
 typealias  ref<bi> = Reference<bi>
 
