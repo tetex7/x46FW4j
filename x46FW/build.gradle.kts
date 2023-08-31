@@ -14,9 +14,10 @@ plugins {
     `java-library`
 }
 
-val PRER_V = "2.0"
-val PRER = false
-val VID = "1.1"
+
+val PRER = true
+val VID = "2.0"
+val PRER_V = VID
 
 
 group = "com.trs.x46FW"
