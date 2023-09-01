@@ -39,7 +39,7 @@ dependencies {
 
 
 
-    api("com.google.guava:guava:31.1-jre")
+    //api("com.google.guava:guava:31.1-jre")
     //implementation("commons-cli:commons-cli:1.5.0")
     implementation("org.json:json:20230227")
     implementation(kotlin("stdlib"))
