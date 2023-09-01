@@ -50,3 +50,6 @@ x46FW/src/main/kotlin/com/trs/x46FW/ui/console/
 x46FW/src/main/java/com/trs/x46FW/ui/console/
 
 x46FW/src/test/kotlin/com/trs/x46FW/ui/console/
+
+x46FW/src/main/kotlin/com/trs/x46FW/utils/qlang/
+x46FW/src/test/kotlin/com/trs/x46FW/utils/qlang/
