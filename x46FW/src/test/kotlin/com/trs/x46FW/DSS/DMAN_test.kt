@@ -3,7 +3,7 @@ package com.trs.x46FW.DSS
 import com.trs.x46FW.DSS.DEM_MK
 import com.trs.x46FW.DSS.DMAN
 import com.trs.x46FW.DSS.RESV
-import com.trs.x46FW.internal.XDMAN
+//import com.trs.x46FW.internal.XDMAN
 import org.junit.jupiter.api.Test
 
 class DMAN_test
@@ -82,8 +82,8 @@ class DMAN_test
         }
         id(d)
 
-        XDMAN["FUCL"] = DEM_MK(PRI = 16) {
+        /*XDMAN["FUCL"] = DEM_MK(PRI = 16) {
             println(this.THR.name)
-        }
+        }*/
     }
 }

@@ -16,7 +16,6 @@ class TRYTest
         {
             throw RuntimeException()
         }
-        println(o.ex_data.cex?.STACK_TRACE_STR())
     }
 
     @Test

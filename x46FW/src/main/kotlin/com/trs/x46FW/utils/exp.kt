@@ -3,6 +3,7 @@
 package com.trs.x46FW.utils
 
 //mport com.trs.disasm.lexer.INP_STAT
+import com.trs.x46FW.internal.XLOG
 import com.trs.x46FW.internal.wintest
 import com.trs.x46FW.internal.x46FW_API
 import com.trs.x46FW.ui.error_box
@@ -72,7 +73,8 @@ inline fun exp(ex:Throwable, msg_pt:String, msg_box:Boolean = false, exit:Boolea
     }
     catch (e: Throwable)
     {
-        println(ex.STACK_TRACE_STR())
+        ///println(ex.STACK_TRACE_STR())
+        XLOG.TRACE("\n${ex.STACK_TRACE_STR()}")
         if (!exit)
         {
             return
@@ -94,20 +96,21 @@ inline fun exp(ex:Throwable, msg_pt:String, msg_box:Boolean = false, exit:Boolea
 
 fun <bi : Throwable> bi.to_x46FW_err(): Ix46FW_error
 {
-    val xe = Ix46FW_error::class
-    if (this is Ix46FW_error)
+    if (Ix46FW_error::class.java.isAssignableFrom(this::class.java))
     {
-        return this
+        //@Suppress("UNCHECKED_CAST")
+        return this as Ix46FW_error
 
     }
     val m = this.message ?: "NO_MGS"
-    val e = Ix46FW_error(m, this)
-    if (e.CAS != null)
+    val _e = this
+    val e = Ix46FW_error(m, _e)
+    /*if (e.CAS != null)
     {
-        val est = e.stackTrace
-        e.stackTrace = e.CAS?.stackTrace
+        val est = e.stackTrace.clone()
+        e.stackTrace = e.CAS?.stackTrace?.clone()
         e.CAS?.stackTrace = est
-    }
+    }*/
     return e
 }
 
@@ -137,16 +140,14 @@ fun <bi> TRY(NO_EX: FLAG = false, err_box: FLAG = false, exit: FLAG = true, code
                 //return Pair(Pair(false, ex), null)
                 //ex.STACK_TRACE_STR()
                 //val ol = DEM_MK(name = "TRY-${Random(4663).nextInt(5995, 999998)}", PRI = 16) {
-                val ty = measureTimeMillis {
-                    var d: Thread? = null
-                    d = thread(name = "TRY-${Random(4663).nextInt(5995, 9559)}")
-                    {
-                        exp(ex, ex.message ?: "NO_MSG", err_box, false, code, TI, d)
-                    }
+
+                thread(name = "TRY-${Random(4663).nextInt(5995, 9559)}")
+                {
+                    exp(ex, ex.message ?: "NO_MSG", err_box, false, code, TI, Thread.currentThread())
                 }
 
                 //XDMAN[ol.name] = ol
-                return TRY_DATA(false, EX_DATA(ex), null, ty)
+                return TRY_DATA(false, EX_DATA(ex), null, 0)
             }
             exp(ex, ex.message ?: "NO_MSG", err_box, exit, code, TI)
 

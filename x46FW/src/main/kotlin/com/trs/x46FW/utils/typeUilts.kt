@@ -5,9 +5,15 @@ package com.trs.x46FW.utils
 
 //import com.trs.x46FW.DSS.wintest
 import com.trs.x46FW.internal.wintest
+import java.io.File
+import java.io.OutputStreamWriter
+import java.nio.charset.Charset
 
 import kotlin.math.abs
 
+fun File.log_mode(): OutputStreamWriter {
+    return this.writer()
+}
 
 fun Number.toSFstring(): String
 {

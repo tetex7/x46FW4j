@@ -25,7 +25,7 @@ internal var WINT: FLAG = false
     }
 
 fun boot(): Int {
-    if (!XBOOT)
+    /*if (!XBOOT)
     {
         WINT = true
         XBOOT = true
@@ -33,17 +33,17 @@ fun boot(): Int {
     else
     {
         return 0
-    }
-    XDMAN[".Fboot"] = DEM_MK(PRI = 14, name = ".Fboot", _uuid = UUID.fromString("6607833d-9e8b-47f1-8e14-bfb5f2dc12ce")) {
+    }*/
+    /*XDMAN[".Fboot"] = DEM_MK(PRI = 14, name = ".Fboot", _uuid = UUID.fromString("6607833d-9e8b-47f1-8e14-bfb5f2dc12ce")) {
         //println(this.name)
         //println(this.THR.name)
         //D.DMA?.map_srink()
         //println("d")
-    }
+    }*/
 
-    System.setProperty("DSS_ARC", "FALLEN_ANGEL")
-    System.setProperty("DSS_VID", "v1.0b")
-    System.setProperty("xdev_name", "Tetex7")
+    //System.setProperty("DSS_ARC", "FALLEN_ANGEL")
+    //System.setProperty("DSS_VID", "v1.0b")
+    //System.setProperty("xdev_name", "Tetex7")
     return 65
     //XDMAN.start()
 }
