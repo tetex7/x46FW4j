@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/x46FW4j.iml" filepath="$PROJECT_DIR$/.idea/modules/x46FW4j.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/x46FW/x46FW4j.x46FW.main.iml" filepath="$PROJECT_DIR$/.idea/modules/x46FW/x46FW4j.x46FW.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/x46FW/x46FW4j.x46FW.test.iml" filepath="$PROJECT_DIR$/.idea/modules/x46FW/x46FW4j.x46FW.test.iml" />
     </modules>
   </component>
 </project>

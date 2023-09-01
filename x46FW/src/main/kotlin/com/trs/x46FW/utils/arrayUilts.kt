@@ -11,6 +11,12 @@ val Number.arsize:Int
         return@RET this.toInt() - 1
     }
 
+val String.rsize:Int
+    inline get() = run RET@{
+        wintest()
+        return@RET this.length.arsize
+    }
+
 
 val <bi> Array<bi>.rsize:Int
     inline get() = run RET@{
@@ -79,6 +85,18 @@ inline fun <bi> List<bi>.last(): bi
 }
 
 inline fun <bi> List<bi>.first(): bi
+{
+    wintest()
+    return this[0]
+}
+
+inline fun String.last(): Char
+{
+    wintest()
+    return this[this.rsize]
+}
+
+inline fun String.first(): Char
 {
     wintest()
     return this[0]
