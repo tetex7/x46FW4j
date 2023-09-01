@@ -4,11 +4,11 @@ import com.trs.x46FW.internal.x46FW_API
 import com.trs.x46FW.utils.FLAG
 import com.trs.x46FW.utils.Ithreaded
 import com.trs.x46FW.utils.Lock
-import com.trs.x46FW.utils.toSFstring
+import com.trs.x46FW.utils.qlang.Qlang
+import com.trs.x46FW.utils.qlang.Qlang_inst
 import java.io.PrintStream
-import java.time.LocalDate
-import java.time.LocalTime
-import kotlin.random.Random
+import com.trs.x46FW.utils.qlang.libstd.*
+import com.trs.x46FW.utils.qlang.Qlang.Companion.q_rand
 
 @x46FW_API
 class Logger: Ithreaded
@@ -19,7 +19,7 @@ class Logger: Ithreaded
     companion object
     {
 
-        const val h_hour = "%h%"
+        /*const val h_hour = "%h%"
         const val h_minute = "%m%"
         const val h_second = "%s%"
         const val h_day = "%d%"
@@ -28,27 +28,22 @@ class Logger: Ithreaded
         const val h_tname = "%tname%"
         const val p_temp = "%temp%"
         const val q_rand = "%rand%"
-        private val h_class_path = "%cpath%"
+        private val h_class_path = "%cpath%"*/
         const val h_level = "%level%"
     }
 
     var log_path = "$p_temp/log4x-[$h_month:$h_day:$h_year]-[$q_rand].log"
+    private val ql:Qlang = run RET@{
+        val d = Qlang()
+        d.initLibSTD()
+        d[h_level] = { level.toString() }
+        return@RET d
+    }
 
     fun path_prs():String
     {
         return t_run RET@{
-            val io = log_path.replace(h_hour, LocalTime.now().hour.toSFstring())
-                .replace(h_minute, LocalTime.now().minute.toSFstring())
-                .replace(h_second, LocalTime.now().second.toSFstring())
-                .replace(h_tname, Thread.currentThread().name)
-                .replace(p_temp, System.getProperty("java.io.tmpdir"))
-                .replace(q_rand, Random.nextInt(1221, 991199).toString())
-                .replace(h_month, LocalDate.now().month.value.toSFstring())
-                .replace(h_day, LocalDate.now().dayOfMonth.toSFstring())
-                .replace(h_year, LocalDate.now().year.toSFstring())
-                .replace(h_tname, Thread.currentThread().name)
-            //.replace(h_level, ll.toString())
-            return@RET io
+            return@RET ql(log_path)
         }
     }
 
@@ -92,19 +87,10 @@ class Logger: Ithreaded
     var PS:PrintStream = System.out!!
     var PS_ERR:PrintStream = System.err!!
 
-    fun header_prs(ll:Level):String
+    fun header_prs():String
     {
         return t_run RET@{
-            val io = LOG_HEAD.replace(h_hour, LocalTime.now().hour.toSFstring())
-                .replace(h_minute, LocalTime.now().minute.toSFstring())
-                .replace(h_second, LocalTime.now().second.toSFstring())
-                .replace(h_tname, Thread.currentThread().name)
-                .replace(h_level, ll.toString())
-                .replace(h_month, LocalDate.now().month.value.toSFstring())
-                .replace(h_day, LocalDate.now().dayOfMonth.toSFstring())
-                .replace(h_year, LocalDate.now().year.toSFstring())
-                .replace(q_rand, Random.nextInt(212, 9119).toString())
-            return@RET io
+            return@RET ql(LOG_HEAD)
         }
     }
 
@@ -135,11 +121,11 @@ class Logger: Ithreaded
         t_run {
             if (clog(Level.INFO))
             {
-                PS.println("${header_prs(Level.INFO)} $txt")
+                PS.println("${header_prs()} $txt")
             }
             if (LOG_FILE != null)
             {
-                LOG_FILE?.println("${header_prs(Level.INFO)} $txt")
+                LOG_FILE?.println("${header_prs()} $txt")
             }
         }
     }
@@ -147,9 +133,9 @@ class Logger: Ithreaded
     fun TRACE(txt:String)
     {
         t_run {
-            PS_ERR.println("${header_prs(Level.TRACE)} $txt")
+            PS_ERR.println("${header_prs()} $txt")
             if (LOG_FILE != null) {
-                LOG_FILE?.println("${header_prs(Level.TRACE)} $txt")
+                LOG_FILE?.println("${header_prs()} $txt")
             }
         }
     }
@@ -159,11 +145,11 @@ class Logger: Ithreaded
         t_run {
             if (clog(Level.DEBUG))
             {
-                PS.println("${header_prs(Level.DEBUG)} $txt")
+                PS.println("${header_prs()} $txt")
             }
             if (LOG_FILE != null)
             {
-                LOG_FILE?.println("${header_prs(Level.DEBUG)} $txt")
+                LOG_FILE?.println("${header_prs()} $txt")
             }
         }
     }
@@ -173,11 +159,11 @@ class Logger: Ithreaded
         t_run {
             if (clog(Level.WARNING))
             {
-                PS.println("${header_prs(Level.WARNING)} $txt")
+                PS.println("${header_prs()} $txt")
             }
             if (LOG_FILE != null)
             {
-                LOG_FILE?.println("${header_prs(Level.WARNING)} $txt")
+                LOG_FILE?.println("${header_prs()} $txt")
             }
         }
     }
@@ -187,11 +173,11 @@ class Logger: Ithreaded
         t_run {
             if (clog(Level.INFO))
             {
-                PS_ERR.println("${header_prs(Level.ERROR)} $txt")
+                PS_ERR.println("${header_prs()} $txt")
             }
             if (LOG_FILE != null)
             {
-                LOG_FILE?.println("${header_prs(Level.ERROR)} $txt")
+                LOG_FILE?.println("${header_prs()} $txt")
             }
         }
     }
