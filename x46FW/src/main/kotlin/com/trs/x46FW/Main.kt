@@ -13,7 +13,7 @@ private fun test_all()
     }
     val t = DEM_MK(name = "fd") {
         //println("YOUR FUCKED")
-        this.DMA?.killAllS()
+        this.DMA?.killAll_S()
         println("SHOW IS ${dMAN.show_sat_rq()}")
     }
     dMAN add ff

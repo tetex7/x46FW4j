@@ -13,6 +13,16 @@ class log4x_tests
         val v = Logger()
         v.toFile = true
         v.INFO(v.path_prs())
+        v.INFO("FF")
+        v.INFO("FF")
+        v.INFO("FF")
+        v.INFO("FF")
+        v.INFO("FF")
+        v.INFO("FF")
+        v.INFO("FF")
+        v.INFO("FF")
+        v.INFO("FF")
+
 
         XLOG.INFO("TEST")
         v(XLOG.path_prs())
@@ -21,5 +31,6 @@ class log4x_tests
 
         v.INFO("HI")
         v.DEBUG("dfg")
+        v.level = Level.ALL
     }
 }

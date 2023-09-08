@@ -57,9 +57,6 @@ class DMAN(ST: FLAG = true)
 
     fun show_sat_rq(): FLAG
     {
-
-
-
         wintest()
         if (VTHR.last() == null)
         {
@@ -124,7 +121,7 @@ class DMAN(ST: FLAG = true)
         SCH.sch_acc()
     }*/
 
-    fun killAllS()
+    fun killAll_S()
     {
         wintest()
 

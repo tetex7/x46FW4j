@@ -30,12 +30,4 @@ class TRYTest
         println(o.rd)
     }
 
-    @Test
-    fun arsst_test()
-    {
-        /*val classUnderTest = App()
-        assertNotNull(classUnderTest.greeting, "app should have a greeting")*/
-        assert(1 == 0, ex = false)
-        //println(o.rd)
-    }
 }

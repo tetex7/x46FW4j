@@ -3,7 +3,12 @@
 package com.trs.x46FW.utils
 //import com.trs.x46FW.DSS.wintest
 import com.trs.x46FW.internal.wintest
+import java.io.File
 import java.io.InputStream
+import java.util.jar.JarFile
+
+
+fun getJar():JarFile = JarFile(Event::class.java.protectionDomain.codeSource.location.path)
 
 
 internal fun filegetr(p: String): String

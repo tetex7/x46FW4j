@@ -45,6 +45,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     testImplementation(kotlin("test"))
     api("org.apache.commons:commons-lang3:3.12.0")
+    api("commons-cli:commons-cli:1.5.0")
     //
     //api("org.apache.logging.log4j:log4j-core:2.20.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")

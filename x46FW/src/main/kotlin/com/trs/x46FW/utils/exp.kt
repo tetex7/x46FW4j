@@ -12,6 +12,9 @@ import kotlin.concurrent.thread
 import kotlin.random.Random
 import kotlin.system.exitProcess
 import kotlin.system.measureTimeMillis
+import java.util.*
+
+val EX_STACK:Stack<Throwable> = Stack()
 
 data class EX_DATA(val row_ex:Throwable?, val cex: Ix46FW_error? = row_ex?.to_x46FW_err())
 data class TRY_DATA<out bi>(val exed:FLAG, val ex_data: EX_DATA, val rd:bi?, val time:Long = 0)
@@ -29,7 +32,7 @@ inline fun MK_ECODE(TOP_CODE:TOP_CODES, SUP_CODE:Number): Int
 }
 
 
-@x46FW_API
+/*@x46FW_API
 @Deprecated("")
 fun assert(value: Boolean, ex:Boolean = false): Boolean
 {
@@ -58,7 +61,7 @@ fun assert(value: Boolean, ex:Boolean = false): Boolean
     }
 
     return value
-}
+}*/
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun exp(ex:Throwable, msg_pt:String, msg_box:Boolean = false, exit:Boolean = false, code:Int = 100, TI:String = "", thr:Thread? = null)
@@ -133,8 +136,9 @@ fun <bi> TRY(NO_EX: FLAG = false, err_box: FLAG = false, exit: FLAG = true, code
         {
             return TRY_DATA(true, EX_DATA(null), fu())
         }
-        catch (ex: Throwable) {
-
+        catch (ex: Throwable)
+        {
+            EX_STACK.push(ex)
             if (NO_EX) {
                 //error_box(ex.to_disasm_err().MSG, false, code, TI)
                 //return Pair(Pair(false, ex), null)

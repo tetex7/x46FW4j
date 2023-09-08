@@ -18,6 +18,8 @@ class DMANa {
                     }
                 }
             }
+
+            Vector<?> dd;
             sch.sch_acc();
         }
     }

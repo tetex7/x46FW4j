@@ -9,6 +9,7 @@ import com.trs.x46FW.utils.qlang.Qlang_inst
 import java.io.PrintStream
 import com.trs.x46FW.utils.qlang.libstd.*
 import com.trs.x46FW.utils.qlang.Qlang.Companion.q_rand
+import java.util.regex.Pattern
 
 @x46FW_API
 class Logger: Ithreaded
@@ -36,14 +37,14 @@ class Logger: Ithreaded
     private val ql:Qlang = run RET@{
         val d = Qlang()
         d.initLibSTD()
-        d[h_level] = { level.toString() }
+        d[h_level] = { tag:String, p: Pattern, ctxt:String -> level.toString() }
         return@RET d
     }
 
     fun path_prs():String
     {
         return t_run RET@{
-            return@RET ql(log_path)
+            return@RET ql(log_path).first
         }
     }
 
@@ -77,8 +78,7 @@ class Logger: Ithreaded
                 Level.TRACE -> TRACE(txt)
                 Level.INFO -> INFO(txt)
                 Level.ERROR -> ERROR(txt)
-                Level.OFF -> {
-                }
+                Level.OFF -> return@RET level
             }
             return@RET level
         }
@@ -90,7 +90,7 @@ class Logger: Ithreaded
     fun header_prs():String
     {
         return t_run RET@{
-            return@RET ql(LOG_HEAD)
+            return@RET ql(LOG_HEAD).first
         }
     }
 
@@ -147,6 +147,7 @@ class Logger: Ithreaded
             {
                 PS.println("${header_prs()} $txt")
             }
+
             if (LOG_FILE != null)
             {
                 LOG_FILE?.println("${header_prs()} $txt")
