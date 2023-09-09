@@ -7,9 +7,17 @@ package com.trs.x46FW.utils
 import com.trs.x46FW.internal.wintest
 import java.io.File
 import java.io.OutputStreamWriter
-import java.nio.charset.Charset
+import com.trs.x46FW.internal.nativeUtils.PrintUils
 
 import kotlin.math.abs
+
+fun cprint(s:String) = PrintUils.printf(s)
+
+@Suppress("UNCHECKED_CAST")
+fun <bi> dud():bi
+{
+    return Any() as bi
+}
 
 fun File.log_mode(): OutputStreamWriter {
     return this.writer()

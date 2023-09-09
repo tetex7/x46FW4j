@@ -2,6 +2,8 @@ package com.trs.x46FW
 
 import com.trs.x46FW.DSS.DEM_MK
 import com.trs.x46FW.DSS.DMAN
+import com.trs.x46FW.utils.cprint
+
 //import com.trs.x46FW.internal.`?`
 
 private fun test_all()
@@ -18,6 +20,7 @@ private fun test_all()
     }
     dMAN add ff
     println("SHOW IS ${dMAN.show_sat_rq()}")
+    cprint("cprint TEST")
 }
 
 internal fun main()
