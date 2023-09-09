@@ -1,0 +1,33 @@
+<qlang>
+    <str=@this@>
+        <reg_mk=$yt$>
+    </str>
+    <in=%str%>
+    /*<tagl>
+        %ff% = %str%==@null@
+        @this@.$r0$ = "58"
+        str @t@
+        {
+            &test&
+            {
+                ret "fdf"
+            }
+        }
+    </tagl>*/
+    <fun=&ftest&>
+        <op=($r0$="dd")>
+        <fout=#ret_reg#>
+    </fun>
+    //<regx_pass>"test.[1-9]"</regx_pass>
+    //<rregx_run>
+    <var=%find1%>
+    <find="test">
+        <as=%find%>
+        <op=(%find1%=%find%)>
+        <if=(%find%\=%str%)>
+            <op=(%find%==%find1%)>
+            <out=<call=&find&>.$r0$>
+        </if>
+        <out=%find%>
+    </find>
+</qlag>
