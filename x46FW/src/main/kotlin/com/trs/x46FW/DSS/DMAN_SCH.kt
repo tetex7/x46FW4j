@@ -20,6 +20,7 @@ class DMAN_SCH(dvcall: DMAN)
 
     val FAS:FLAG = true
 
+
     final var VET = Stack<Pair<String, IDemon>>()
         get() = run RET@{
             synchronized(SCH_lock)
@@ -34,7 +35,6 @@ class DMAN_SCH(dvcall: DMAN)
                 field = v
             }
         }
-
 
     fun nuc()
     {

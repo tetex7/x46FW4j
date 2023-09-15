@@ -10,6 +10,7 @@ class Event_test
     {
         var ev:Event = Event(tr = true) {
             println("test")
+            xexit(0)
         }
 
         ev()

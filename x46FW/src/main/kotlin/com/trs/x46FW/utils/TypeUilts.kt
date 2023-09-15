@@ -11,7 +11,7 @@ import com.trs.x46FW.internal.nativeUtils.PrintUils
 
 import kotlin.math.abs
 
-fun cprint(s:String) = PrintUils.printf(s)
+fun printf(s:String) = PrintUils.printf(s)
 
 @Suppress("UNCHECKED_CAST")
 fun <bi> dud():bi
@@ -19,9 +19,16 @@ fun <bi> dud():bi
     return Any() as bi
 }
 
-fun File.log_mode(): OutputStreamWriter {
-    return this.writer()
-}
+val String.strlen:Long
+    get()
+    {
+        return PrintUils.Strlen(this)
+    }
+val String.rstrlen:Long
+    get()
+    {
+        return this.strlen + 1
+    }
 
 fun Number.toSFstring(): String
 {
@@ -33,6 +40,11 @@ fun Boolean.toStrY():String
 {
     return if (this) "YES" else "NO"
 }
+
+val Boolean.YorN:String
+    get(){
+        return toStrY()
+    }
 
 
 fun Char.toSH(): Short

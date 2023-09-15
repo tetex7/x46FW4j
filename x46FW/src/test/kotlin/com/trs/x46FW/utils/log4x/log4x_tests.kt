@@ -10,8 +10,8 @@ class log4x_tests
     @Test
     fun log_test()
     {
-        val v = Logger()
-        v.toFile = true
+        val v = Logger.Builder().file(true).CAN(true).build()
+        //v.toFile = true
         v.INFO(v.path_prs())
         v.INFO("FF")
         v.INFO("FF")

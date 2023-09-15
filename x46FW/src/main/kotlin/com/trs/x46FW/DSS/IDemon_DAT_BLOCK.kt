@@ -25,6 +25,7 @@ data class IDemon_DAT_BLOCK(
 
     override fun toString(): String
     {
+        super.toString()
         return RAW_STR().replace("%NTAB%", "\n\t").replace("%N%", "\n")
     }
 }

@@ -18,6 +18,7 @@ class Qlang_inst(block: Qlang_inst.(tag: String, p: Pattern, ctxt: String) -> St
     {
         return Pair(__work(tag, p, ctxt), 1)
     }
+    constructor(block: Qlang_inst.(tag: String, p: Pattern, ctxt: String) -> String) : this(block, Regex("not dep"))
 
     init
     {

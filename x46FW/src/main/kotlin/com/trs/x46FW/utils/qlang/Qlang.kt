@@ -6,22 +6,25 @@ package com.trs.x46FW.utils.qlang
 import com.trs.x46FW.utils.FLAG
 import com.trs.x46FW.utils.arsize
 import com.trs.x46FW.utils.last
+import com.trs.x46FW.utils.log4x.logBuilder
 import com.trs.x46FW.utils.toSFstring
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.Vector
 import kotlin.random.Random
 import com.trs.x46FW.utils.qlang.libstd.*
+import java.util.*
 import java.util.regex.Pattern
 
 
 class Qlang
 {
-    private val pats:Vector<Pair<Regex, Qlang_inst>> = Vector()
+    private val pats: Stack<Pair<Regex, Qlang_inst>> = Stack()
     //private val
+
 
     companion object
     {
+        fun Builder() = qlangBuilder()
         const val q_NAT = "&NAT&"
         const val q_rand = "%rand%"
         const val rq_randR = "%rand[+--][0-9]*%"
@@ -95,16 +98,18 @@ class Qlang
         var rou = text //to tun val text to var
         for (i in 0 .. pats.size.arsize) //a for loop to go thow the Vector of tags
         {
-            if(rou.contains(pats[i].first)) //check if the input contains a tag
+            val ib = pats.push(pats.pop())
+            if(rou.contains(ib.first)) //check if the input contains a tag
             {
 
-                val t = pats[i].first.find(text)?.value ?: q_NAT //prep tag for the work fun
-                rou = rou.replace(pats[i].first, /*a logic block for the replace*/run RET@{
-                    val v = pats[i].second.work(/*prep tag*/t, /*the tag's regx Pattern*/pats[i].first.toPattern(), /*input str*/rou)
+                val t = ib.first.find(text)?.value ?: q_NAT //prep tag for the work fun
+                rou = rou.replace(ib.first, /*a logic block for the replace*/run RET@{
+                    val v = ib.second.work(/*prep tag*/t, /*the tag's regx Pattern*/ib.first.toPattern(), /*input str*/rou)
                     workd += v.second //add the #1 to workd
                     return@RET v.first //the replace str
                 })
             }
+
         }
 
         val of:FLAG = workd > 0 //if work is done
@@ -138,6 +143,7 @@ class Qlang
         var pp_regex_p = regex_p
         pats.add(Pair(Regex(pp_regex_p, ), Qlang_inst(fv, Regex(pp_regex_p))))
     }
+
 
     operator fun set(regex: Regex, v:Qlang_inst)
     {

@@ -5,12 +5,15 @@ package com.trs.x46FW.utils
 
 
 import com.trs.x46FW.DSS.IDemon
+import com.trs.x46FW.internal.nativeUtils.memTools
 import java.lang.ref.Reference
 
 /**
  * [FLAG] is just a [Boolean] flag
  */
 typealias FLAG = Boolean
+
+fun xexit(stat:Long) = memTools.xexit(stat)
 
 typealias JString = java.lang.String
 typealias JInt = java.lang.Integer

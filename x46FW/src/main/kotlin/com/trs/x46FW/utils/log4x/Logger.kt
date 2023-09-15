@@ -10,6 +10,7 @@ import java.io.PrintStream
 import com.trs.x46FW.utils.qlang.libstd.*
 import com.trs.x46FW.utils.qlang.Qlang.Companion.q_rand
 import java.util.regex.Pattern
+import com.trs.x46FW.internal.btc
 
 @x46FW_API
 class Logger: Ithreaded
@@ -19,7 +20,11 @@ class Logger: Ithreaded
 
     companion object
     {
-
+        fun Builder() = logBuilder()
+        init
+        {
+            val df = btc.df()
+        }
         /*const val h_hour = "%h%"
         const val h_minute = "%m%"
         const val h_second = "%s%"
@@ -34,12 +39,10 @@ class Logger: Ithreaded
     }
 
     var log_path = "$p_temp/log4x-[$h_month:$h_day:$h_year]-[$q_rand].log"
-    private val ql:Qlang = run RET@{
-        val d = Qlang()
-        d.initLibSTD()
-        d[h_level] = { tag:String, p: Pattern, ctxt:String -> level.toString() }
-        return@RET d
-    }
+    private val ql:Qlang = Qlang.Builder()
+        .initLibSTD()
+        .add(h_level) { tag: String, p: Pattern, ctxt: String -> level.toString() }
+        .bulid()
 
     fun path_prs():String
     {
@@ -47,6 +50,10 @@ class Logger: Ithreaded
             return@RET ql(log_path).first
         }
     }
+
+    fun isLoggable(_level: Level):FLAG = (level == Level.ALL) || (_level == level)
+
+    fun isLoggable():FLAG = (!toCAN && !toFile)
 
     var toFile:FLAG = false
         get() = t_run RET@{
@@ -94,12 +101,14 @@ class Logger: Ithreaded
         }
     }
 
-    private fun clog(v:Level):FLAG
+    fun clog(v:Level):FLAG
     {
         return t_run RET@{
             return@RET ((level == Level.ALL) || (v == level)) && toCAN
         }
     }
+
+
 
     var LOG_HEAD = "[$h_hour:$h_minute:$h_second]:[$h_tname/$h_level]:"
         get() = t_run RET@{
@@ -182,4 +191,5 @@ class Logger: Ithreaded
             }
         }
     }
+
 }
