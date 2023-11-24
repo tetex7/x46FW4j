@@ -42,11 +42,11 @@ class logBuilder
         return this
     }
 
-    var toCAN:FLAG
-        get() = logger.toCAN
+    var toCAN:FLAG = true
+        get() = field
         set(value)
         {
-            logger.toCAN = value
+            field = value
         }
 
     fun file(v:FLAG): logBuilder

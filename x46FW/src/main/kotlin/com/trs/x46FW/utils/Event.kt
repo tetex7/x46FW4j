@@ -9,9 +9,9 @@ import kotlin.concurrent.thread
 class Event(tr:FLAG = false, _block: () -> Unit)
 {
 
-    val `tr?` = tr
-    val b = _block
-    val thr = thread(start = false, block = _block)
+    private val `tr?` = tr
+    private val b = _block
+    private val thr = thread(start = false, block = _block)
 
     operator fun invoke()
     {

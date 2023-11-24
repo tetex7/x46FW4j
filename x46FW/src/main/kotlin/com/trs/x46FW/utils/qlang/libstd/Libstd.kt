@@ -1,7 +1,7 @@
 package com.trs.x46FW.utils.qlang.libstd
 
-//const val `%h%` = "%h%"
-const val h_hour = "%h%"
+//const val `%conf_file%` = "%conf_file%"
+const val h_hour = "%conf_file%"
 const val h_minute = "%m%"
 const val h_second = "%s%"
 const val h_day = "%d%"
@@ -9,8 +9,13 @@ const val h_month = "%mm%"
 const val h_year = "%y%"
 const val h_tname = "%tname%"
 const val p_temp = "%temp%"
+const val p_user_conf = "%USER_CONF%"
+const val p_user_folder = "%USER%"
+/*const val c_nl_tab = "%NTAB%"
+const val c_nl = "%N%"
+const val c_tab = "%TAB%"*/
 
 
 
 //const val
-private val p_class_path = "%cpath%"
+const val p_class_path = "%cpath%"

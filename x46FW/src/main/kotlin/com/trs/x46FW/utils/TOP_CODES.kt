@@ -2,9 +2,10 @@ package com.trs.x46FW.utils
 
 enum class TOP_CODES(v: Int)
 {
-    DSS_C(5000),
-    EXP_C(2000),
-    CATE_C(1000),
+    DSS_C  (5000),
+    EXP_C  (2000),
+    CATE_C (1000),
+    DMAN_C (6000),
     //MAT_C(6000),
     JARFS_C(9500);
 

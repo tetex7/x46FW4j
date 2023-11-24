@@ -1,6 +1,7 @@
 package com.trs.x46FW.utils.qlang
 
 import java.util.regex.Pattern
+import com.trs.x46FW.utils.*
 
 class qlangBuilder
 {
@@ -23,6 +24,13 @@ class qlangBuilder
         return this
     }
 
-    fun bulid():Qlang = ql
+    fun bulid(init_std:FLAG = true):Qlang
+    {
+        if (init_std)
+        {
+            initLibSTD()
+        }
+        return ql;
+    }
 
 }

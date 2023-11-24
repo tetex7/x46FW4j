@@ -87,6 +87,7 @@ interface IDemon
     /**
      * the name of the demon
      */
+    val work_stack:Stack<Any>
     val name:String
     val GNAME:String
     var DMA:DMAN?
@@ -134,7 +135,7 @@ interface IDemon
 
     /**
      * runs the IDemon through a [Event] never hitting a [DMAN] or a [DMAN_SCH]'s stack
-     * ```
+     * ```kt
      * import com.trs.x46FW.DSS.DEM_MK
      *
      * fun main()
@@ -211,11 +212,19 @@ fun DEM_MK(
         _uuid:UUID = UUID.randomUUID(),
         block: IDemon.() -> Unit): IDemon {
     val ID = object : IDemon {
+        override val work_stack: Stack<Any> = Stack<Any>()
         override val uuid: UUID = _uuid
         override var R: FLAG = false
         override val name: String = name
         override var DMA:DMAN? = null
         override var E: FLAG = false
+            set(value) {
+                field = value
+                if (field)
+                {
+                    STAT = TR_STAT.TR_ERR
+                }
+            }
         override val D: FLAG = false
         override val THR: Thread = Thread.currentThread()
         override val DID:Short = did
@@ -232,7 +241,7 @@ fun DEM_MK(
             this.block()
             if (E)
             {
-                STAT = TR_STAT.TR_ERR
+                R = false
                 return@rRET
             }
             STAT = TR_STAT.TR_STOPED
@@ -241,3 +250,15 @@ fun DEM_MK(
     }
     return ID
 }
+
+/*fun Stack<Triple<String, IDemon, DMAN>>.dumpR():String
+{
+    var so = String()
+    so += "VET(${this[0].third.dman_name}):\n{\n\n"
+    for (vae in this)
+    {
+        so += "\t${vae.second.toString().replace("\t", "\t\t")}"
+    }
+    so += "}"
+    return so
+}*/

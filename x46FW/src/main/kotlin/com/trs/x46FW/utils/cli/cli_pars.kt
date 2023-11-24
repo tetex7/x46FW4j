@@ -15,7 +15,7 @@ class cli_pars()
 
     var footer_str = "x46FW cli\ngo to the github the docs <www.github.com/tetex7/x46FW4j>"
 
-    val option_help = Option.builder("h")
+    val option_help = Option.builder("conf_file")
         .required(false)
         .desc("well it's help LoL")
         .longOpt("help")
@@ -28,7 +28,7 @@ class cli_pars()
             {
                 println("${cv.longOpt!!} ${cv.argName!!} : ${cv.description!!}")
             }
-            //println("--help -h : ${options.getOption("help").description}")
+            //println("--help -conf_file : ${options.getOption("help").description}")
 
 
             println("")//"discord asm lang lib with a debug ui\ngo to the github the docs <www.github.com/tetex7>")

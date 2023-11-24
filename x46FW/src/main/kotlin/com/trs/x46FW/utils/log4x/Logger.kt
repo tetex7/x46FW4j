@@ -25,7 +25,7 @@ class Logger: Ithreaded
         {
             val df = btc.df()
         }
-        /*const val h_hour = "%h%"
+        /*const val h_hour = "%conf_file%"
         const val h_minute = "%m%"
         const val h_second = "%s%"
         const val h_day = "%d%"
@@ -38,10 +38,12 @@ class Logger: Ithreaded
         const val h_level = "%level%"
     }
 
+    var log_debug:FLAG = true
+
     var log_path = "$p_temp/log4x-[$h_month:$h_day:$h_year]-[$q_rand].log"
     private val ql:Qlang = Qlang.Builder()
-        .initLibSTD()
-        .add(h_level) { tag: String, p: Pattern, ctxt: String -> level.toString() }
+        //.initLibSTD()
+        //.add(h_level)  __RET@{ tag: String, p: Pattern, ctxt: String -> this@Logger.level.toString() }
         .bulid()
 
     fun path_prs():String
@@ -51,7 +53,7 @@ class Logger: Ithreaded
         }
     }
 
-    fun isLoggable(_level: Level):FLAG = (level == Level.ALL) || (_level == level)
+    fun isLoggable(_level: Level):FLAG = (level == Level.ALL) || (_level == level) && (_level != Level.OFF)
 
     fun isLoggable():FLAG = (!toCAN && !toFile)
 
@@ -59,7 +61,7 @@ class Logger: Ithreaded
         get() = t_run RET@{
             return@RET field
         }
-        set(value:FLAG) = t_run {
+        set(value) = t_run {
                 field = value
                 LOG_FILE = mk_file()
         }
@@ -79,13 +81,13 @@ class Logger: Ithreaded
         return t_run RET@{
             when (level)
             {
-                Level.ALL -> INFO(txt)
-                Level.WARNING -> WARNING(txt)
-                Level.DEBUG -> DEBUG(txt)
-                Level.TRACE -> TRACE(txt)
-                Level.INFO -> INFO(txt)
-                Level.ERROR -> ERROR(txt)
-                Level.OFF -> return@RET level
+                Level.ALL      -> INFO(txt)
+                Level.WARNING  -> WARNING(txt)
+                Level.DEBUG    -> DEBUG(txt)
+                Level.TRACE    -> TRACE(txt)
+                Level.INFO     -> INFO(txt)
+                Level.ERROR    -> ERROR(txt)
+                Level.OFF      -> return@RET level
             }
             return@RET level
         }
@@ -94,17 +96,17 @@ class Logger: Ithreaded
     var PS:PrintStream = System.out!!
     var PS_ERR:PrintStream = System.err!!
 
-    fun header_prs():String
+    fun header_prs(v:Level):String
     {
         return t_run RET@{
-            return@RET ql(LOG_HEAD).first
+            return@RET ql(LOG_HEAD).first.replace(h_level, v.toString())
         }
     }
 
     fun clog(v:Level):FLAG
     {
         return t_run RET@{
-            return@RET ((level == Level.ALL) || (v == level)) && toCAN
+            return@RET ((level == Level.ALL) || (v == level)) && ((v != Level.OFF) || toCAN)
         }
     }
 
@@ -130,11 +132,11 @@ class Logger: Ithreaded
         t_run {
             if (clog(Level.INFO))
             {
-                PS.println("${header_prs()} $txt")
+                PS.println("${header_prs(Level.INFO)} $txt")
             }
             if (LOG_FILE != null)
             {
-                LOG_FILE?.println("${header_prs()} $txt")
+                LOG_FILE?.println("${header_prs(Level.INFO)} $txt")
             }
         }
     }
@@ -142,9 +144,9 @@ class Logger: Ithreaded
     fun TRACE(txt:String)
     {
         t_run {
-            PS_ERR.println("${header_prs()} $txt")
+            PS_ERR.println("${header_prs(Level.TRACE)} $txt")
             if (LOG_FILE != null) {
-                LOG_FILE?.println("${header_prs()} $txt")
+                LOG_FILE?.println("${header_prs(Level.TRACE)} $txt")
             }
         }
     }
@@ -152,14 +154,14 @@ class Logger: Ithreaded
     fun DEBUG(txt:String)
     {
         t_run {
-            if (clog(Level.DEBUG))
+            if (clog(Level.DEBUG) && log_debug)
             {
-                PS.println("${header_prs()} $txt")
+                PS.println("${header_prs(Level.DEBUG)} $txt")
             }
 
             if (LOG_FILE != null)
             {
-                LOG_FILE?.println("${header_prs()} $txt")
+                LOG_FILE?.println("${header_prs(Level.DEBUG)} $txt")
             }
         }
     }
@@ -169,11 +171,11 @@ class Logger: Ithreaded
         t_run {
             if (clog(Level.WARNING))
             {
-                PS.println("${header_prs()} $txt")
+                PS.println("${header_prs(Level.WARNING)} $txt")
             }
             if (LOG_FILE != null)
             {
-                LOG_FILE?.println("${header_prs()} $txt")
+                LOG_FILE?.println("${header_prs(Level.WARNING)} $txt")
             }
         }
     }
@@ -181,13 +183,10 @@ class Logger: Ithreaded
     fun ERROR(txt:String)
     {
         t_run {
-            if (clog(Level.INFO))
-            {
-                PS_ERR.println("${header_prs()} $txt")
-            }
+            PS_ERR.println("${header_prs(Level.ERROR)} $txt")
             if (LOG_FILE != null)
             {
-                LOG_FILE?.println("${header_prs()} $txt")
+                LOG_FILE?.println("${header_prs(Level.ERROR)} $txt")
             }
         }
     }

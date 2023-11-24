@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test
 
 class blt
 {
-    @Test
+    /*@Test
     fun blt()
     {
         val v = BLstring("dd trst")
         println("BL: ${v.bf}\n${v.uncode()}")
-    }
+    }*/
 }

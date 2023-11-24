@@ -80,7 +80,14 @@ class DMAN_test
             println(this)
             return@RET
         }
+
+
         id(d)
+        d.PAS = true
+        d.bluk_add(Dt2, Dt1, Dt1, Dt2)
+        d.map_srink()
+        //d.PAS = false
+
 
         /*XDMAN["FUCL"] = DEM_MK(PRI = 16) {
             println(this.THR.name)

@@ -1,21 +1,29 @@
 package com.trs.x46FW.internal.nativeUtils
 
+import com.google.gson.Gson
 import com.trs.x46FW.internal.jnlibs_dir
 import com.trs.x46FW.utils.FLAG
 import java.util.*
 import com.trs.x46FW.utils.*
-import org.json.JSONObject
+
 import java.io.File
 import java.util.Stack
 import com.trs.x46FW.internal.btc.df
 import kotlin.random.Random
 
-private val libnames = run RET@{
-    val lman:JSONObject = JSONObject(getfileStr("JAR:/$jnlibs_dir/lib_man.json"))
-    val temp = lman["libs"]
+/*private val libnames = run RET@{
+    val lman = Gson()
+
+    val temp = lman.fromJson(getfileStr("JAR:/$jnlibs_dir/lib_man.json"), Array<lib_data>::class.java)
     val df = df()
     val d = TRY() __RET@{
-        if (temp is Array<*> && temp.isArrayOf<String>())
+        val d:Stack<String> = Stack()
+        for (v in temp)
+        {
+            println(v.toString())
+            d.push(v.file)
+        }
+        /*if (temp is Array<*> && temp.isArrayOf<String>())
         {
             @Suppress("UNCHECKED_CAST")
             return@__RET (lman["libs"] as Array<String>).toList()
@@ -23,7 +31,8 @@ private val libnames = run RET@{
         else
         {
             throw RuntimeException("bad lib_man.json")
-        }
+        }*/
+        return@__RET d.toList()
     }
     return@RET d.rd!!
 
@@ -60,4 +69,4 @@ internal val libs:List<String> = loadjarlib()?.toList()!!
     get()
     {
         return field
-    }
+    }*/

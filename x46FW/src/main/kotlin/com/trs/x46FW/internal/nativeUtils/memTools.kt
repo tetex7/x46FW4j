@@ -4,7 +4,7 @@ package com.trs.x46FW.internal.nativeUtils
 
 import java.lang.foreign.*
 
-internal object memTools
+/*internal object memTools
 {
     fun xexit(stat:Long)
     {
@@ -105,4 +105,4 @@ internal object memTools
 
 
     fun free(mem:MemorySegment) = free(mem.address())
-}
+}*/

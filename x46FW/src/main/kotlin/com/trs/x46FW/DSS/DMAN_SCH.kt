@@ -5,6 +5,7 @@ import com.trs.x46FW.utils.*
 import com.trs.x46FW.internal.x46FW_API
 import java.util.*
 import kotlin.concurrent.thread
+import com.trs.x46FW.internal.*
 
 
 //import kotlinx.
@@ -29,7 +30,7 @@ class DMAN_SCH(dvcall: DMAN)
             }
 
         }
-        private set(v:Stack<Pair<String, IDemon>>) = run RET@{
+        private set(v) = run RET@{
             synchronized(SCH_lock)
             {
                 field = v
@@ -52,15 +53,16 @@ class DMAN_SCH(dvcall: DMAN)
 
     fun sch_acc()
     {
-        val lock:Lock = Lock()
-        for (PI in 16 downTo 0)
+        //val lock:Lock = Lock()
+        for (PI in conf.thr_PRI() downTo 0)
         {
             wintest()
-            thread(name = "SCH_TASK_$PI")
+            thread(name = "${vcall.dman_name}_SCH_TASK_$PI")
             {
                 TRY(code = MK_ECODE(TOP_CODES.DSS_C, PI)) {
-                    synchronized(lock)
+                    synchronized(SCH_lock)
                     {
+                        XLOG.DEBUG("PI(${PI})")
                         //schf_mutex.lock()
                         val rd = vcall.DA
                         //schf_mutex.unlock()
@@ -69,8 +71,8 @@ class DMAN_SCH(dvcall: DMAN)
                             if (i.value.first.PRI.toInt() == PI) {
                                 //println(i)
                                 VET.push(Pair(i.key, i.value.first))
+                                XLOG.DEBUG("PUST DEM_DATA(${i.key}, ${i.value.first.GNAME}) TO VET(Stack<Pair<String, IDemon>>)")
                             }
-
                         }
                     }
                 }

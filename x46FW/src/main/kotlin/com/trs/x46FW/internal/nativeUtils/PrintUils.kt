@@ -3,7 +3,7 @@ package com.trs.x46FW.internal.nativeUtils
 import java.lang.foreign.*
 
 
-internal object PrintUils
+/*internal object PrintUils
 {
 
     /*init
@@ -80,4 +80,4 @@ internal object PrintUils
         }
     }
 
-}
+}*/

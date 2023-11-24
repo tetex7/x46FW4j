@@ -5,7 +5,7 @@ package com.trs.x46FW.utils
 
 import kotlin.test.Test
 
-class TRYTest
+/*class TRYTest
 {
     @Test
     fun bask_test()
@@ -30,4 +30,4 @@ class TRYTest
         println(o.rd)
     }
 
-}
+}*/

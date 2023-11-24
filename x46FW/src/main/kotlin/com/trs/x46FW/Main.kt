@@ -2,8 +2,6 @@ package com.trs.x46FW
 
 import com.trs.x46FW.DSS.DEM_MK
 import com.trs.x46FW.DSS.DMAN
-import com.trs.x46FW.utils.printf
-import com.trs.x46FW.utils.strlen
 
 //import com.trs.x46FW.internal.`?`
 
@@ -21,9 +19,7 @@ private fun test_all()
     }
     dMAN add ff
     val  d = "__fgfd"
-    printf("$d is ${d.strlen}")
     println("SHOW IS ${dMAN.show_sat_rq()}")
-    printf("cprint TEST")
 }
 
 internal fun main()

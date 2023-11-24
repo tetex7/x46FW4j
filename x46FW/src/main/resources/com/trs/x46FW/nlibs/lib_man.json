@@ -1,5 +1,15 @@
 {
-  "libs": [
-    "libx46FWn-1.0.so"
+
+  "libs":[
+    {
+      "file": "libx46FWn-1.0.so",
+      "metadata": {
+        "dev_name": "Tete",
+        "vid": "1.0",
+        "com_dev": "2023",
+        "dis": "TODO"
+      }
+    }
+
   ]
 }

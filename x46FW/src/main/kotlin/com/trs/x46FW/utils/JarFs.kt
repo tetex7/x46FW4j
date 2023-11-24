@@ -54,7 +54,7 @@ fun getfileA(path: String): List<String>?
     return d.getfileA(path)
 }
 
-fun  <bi : Any> bi.getfile(path: String): InputStream?
+private fun  <bi : Any> bi.getfile(path: String): InputStream?
 {
     wintest()
     val o = TRY(NO_EX = false, code = MK_ECODE(TOP_CODES.JARFS_C, 20)) RET@{
@@ -66,7 +66,7 @@ fun  <bi : Any> bi.getfile(path: String): InputStream?
 }
 
 
-fun  <bi : Any> bi.getfileStr(path: String): String?
+private fun  <bi : Any> bi.getfileStr(path: String): String?
 {
     //var cbuf:Array<Char> = a
     wintest()
@@ -78,7 +78,7 @@ fun  <bi : Any> bi.getfileStr(path: String): String?
     return o.rd
 }
 
-fun  <bi : Any> bi.getfileA(path: String): List<String>?
+private fun <bi : Any> bi.getfileA(path: String): List<String>?
 {
     wintest()
     val d = this.javaClass

@@ -1,6 +1,7 @@
 package com.trs.x46FW.utils.qlang
 
 import com.trs.x46FW.utils.getfileStr
+import com.trs.x46FW.utils.qlang.libstd.p_class_path
 import org.junit.jupiter.api.Test
 import java.util.regex.Pattern
 
@@ -32,6 +33,13 @@ class qlang_test1
         println("qlang rtest: ${qlang("%rand+16%")}")
         println("qlang rtest1: ${qlang("%rand-16-20%")}")
 
+    }
+
+    @Test
+    fun class_pass()
+    {
+        val qlang:Qlang = Qlang()
+        println("$p_class_path")
     }
 
 

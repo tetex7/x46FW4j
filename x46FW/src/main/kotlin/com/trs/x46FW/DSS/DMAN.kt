@@ -6,9 +6,15 @@ package com.trs.x46FW.DSS
 import com.trs.x46FW.internal.x46FW_API
 import kotlin.concurrent.thread
 import com.trs.x46FW.internal.btc
+import com.trs.x46FW.internal.*
 import com.trs.x46FW.internal.wintest
+import com.trs.x46FW.internal.runID
 import com.trs.x46FW.utils.*
+import java.util.UUID
 import java.util.Vector
+import java.util.concurrent.ThreadPoolExecutor
+import kotlin.random.Random
+import com.trs.x46FW.DSS.*
 
 /**
  * The Demon management
@@ -33,14 +39,20 @@ import java.util.Vector
  * @author Tete
  */
 @x46FW_API
-class DMAN(ST: FLAG = true)
+class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549)}]")
 {
     companion object
     {
-        const val MAX_THRD = 10
+        const val MAX_THRD_q = 10
         //const val MAX_THRD_AOC = 100
         internal val df = btc.df()
     }
+
+    val MAX_THRD = conf.thr_count()
+    val dman_name = __dman_name
+        get() {
+            return field;
+        }
 
     private fun ther_aoc(dstr:String)
     {
@@ -55,6 +67,8 @@ class DMAN(ST: FLAG = true)
         DA remov dstr
     }
 
+
+    //external fun f();
     fun show_sat_rq(): FLAG
     {
         wintest()
@@ -62,7 +76,7 @@ class DMAN(ST: FLAG = true)
         {
             return false
         }
-        if (VTHR.last()?.isAlive == false)
+        if (VTHR.last()?.isAlive() == false)
         {
             return false
         }
@@ -99,10 +113,17 @@ class DMAN(ST: FLAG = true)
         PAS = true
     }
 
-    fun map_srink()
+    fun map_srink_f()
     {
         DMANa.msc(this.DA, this.SCH)
     }
+
+    fun map_srink()
+    {
+        map_s = true
+    }
+
+    private var map_s:FLAG = false
     /*{
         println("dd")
         val Cx: Vector<Map.Entry<String, Pair<IDemon, Thread>>> = Vector()
@@ -137,7 +158,7 @@ class DMAN(ST: FLAG = true)
     {
         wintest()
 
-        for (i in 0..MAX_THRD.arsize - 1) {
+        for (i in 0..MAX_THRD - 1) {
 
             VTHR[i]?.interrupt()
             VTHR[i] = null
@@ -170,11 +191,28 @@ class DMAN(ST: FLAG = true)
         //NOW_SCH = true
     }
 
+    private var F_PAS:FLAG = false
+
     private fun SHOW() {
+
+        var stime = 0
         wintest()
         var ACC_F: FLAG = false
 
-        val THR_ACC:()->Unit = {
+        val MAP_C:()->Unit = RET@{
+            if ((stime >= 1500) || map_s)
+            {
+                map_srink_f()
+                stime = 0
+            }
+        }
+
+        val THR_ACC:()->Unit = RET@{
+            if (TC == 0)
+            {
+                return@RET;
+            }
+
             val dstr_r = SCH.VET.pop()
 
             wintest()
@@ -197,6 +235,14 @@ class DMAN(ST: FLAG = true)
             /*for (i in DA_A) {
                 println("${i.first}")
             }*/
+
+            stime = 0
+            while (F_PAS)
+            {
+                wintest()
+                Thread.sleep(20)
+            }
+
             while (DA.isEmpty()) {
                 wintest()
                 SCH.sch_acc()
@@ -206,8 +252,11 @@ class DMAN(ST: FLAG = true)
             while (PAS) {
                 wintest()
                 Thread.sleep(1)
-                SCH.sch_acc();
+                MAP_C()
+                SCH.sch_acc()
             };
+
+            MAP_C()
 
 
             if (NOW_SCH) {
@@ -215,6 +264,8 @@ class DMAN(ST: FLAG = true)
                 SCH.sch_acc()
                 NOW_SCH = false
             }
+
+
 
             if (!ACC_F) {
                 try {
@@ -234,6 +285,7 @@ class DMAN(ST: FLAG = true)
 
                 thr_clean()
             }
+            stime += 1
             //Thread.sleep(500)
         }
     }
@@ -273,9 +325,40 @@ class DMAN(ST: FLAG = true)
     {
         this[d.name] = d
     }
+
+    fun bluk_add(vararg args:IDemon)
+    {
+        this.F_PAS = true
+        for (v in args)
+        {
+            this add v
+        }
+        this.F_PAS = false
+    }
+
+    fun bluk_remove(vararg d_args:IDemon)
+    {
+        for(v in d_args)
+        {
+            DA remov v.name
+        }
+        sch_nuc()
+        NOW_SCH = true
+    }
+
+    fun bluk_remove(vararg args:String)
+    {
+        for(v in args)
+        {
+            DA remov v
+        }
+        sch_nuc()
+        NOW_SCH = true
+    }
+
     private final fun thr_clean()
     {
-        for(i in 0 .. MAX_THRD)
+        for(i in 0 .. MAX_THRD.arsize)
         {
             wintest()
             if (VTHR[i] != null)
@@ -300,7 +383,7 @@ class DMAN(ST: FLAG = true)
     final fun start()
     {
         wintest()
-        VTHR[10] = thread(isDaemon = false, name = "DMAN", block = { SHOW() })
+        VTHR[MAX_THRD] = thread(isDaemon = false, name = this.dman_name, block = {SHOW()})
     }
     var PAS: FLAG = false
     private val SCH: DMAN_SCH = DMAN_SCH(this)
@@ -324,7 +407,10 @@ class DMAN(ST: FLAG = true)
                 field = v
             }
         }
+
+
     private val VTHR_m = Lock()
+
     private val VTHR:Array<Thread?> = arrayOfNulls(MAX_THRD + 1 )
         get() = run RET@{
             synchronized(VTHR_m)

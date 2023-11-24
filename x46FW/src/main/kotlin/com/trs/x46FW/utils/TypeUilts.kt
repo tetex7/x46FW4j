@@ -4,14 +4,14 @@ package com.trs.x46FW.utils
 
 
 //import com.trs.x46FW.DSS.wintest
+import com.trs.x46FW.internal.conf_file
 import com.trs.x46FW.internal.wintest
 import java.io.File
 import java.io.OutputStreamWriter
-import com.trs.x46FW.internal.nativeUtils.PrintUils
 
 import kotlin.math.abs
 
-fun printf(s:String) = PrintUils.printf(s)
+fun get_conf() = conf_file.readText(Charsets.US_ASCII)
 
 @Suppress("UNCHECKED_CAST")
 fun <bi> dud():bi
@@ -19,26 +19,27 @@ fun <bi> dud():bi
     return Any() as bi
 }
 
-val String.strlen:Long
-    get()
-    {
-        return PrintUils.Strlen(this)
-    }
-val String.rstrlen:Long
-    get()
-    {
-        return this.strlen + 1
-    }
-
 fun Number.toSFstring(): String
 {
-    return if(!(this.toInt() > 10)) "0${this.toInt()}" else this.toInt().toString()
+    return if(this.toInt() < 10) "0${this.toInt()}" else this.toInt().toString()
 }
 
 
 fun Boolean.toStrY():String
 {
     return if (this) "YES" else "NO"
+}
+
+fun SWITCH(value: Boolean):Boolean = !value
+
+operator fun Boolean.inc():Boolean
+{
+    return SWITCH(this)
+}
+
+operator fun Boolean.dec():Boolean
+{
+    return SWITCH(this)
 }
 
 val Boolean.YorN:String
