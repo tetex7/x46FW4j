@@ -17,6 +17,8 @@ import java.util.*
 val EX_STACK:Stack<Throwable> = Stack()
 
 data class EX_DATA(val row_ex:Throwable?, val cex: Ix46FW_error? = row_ex?.to_x46FW_err())
+
+
 data class TRY_DATA<out bi>(val exed:FLAG, val ex_data: EX_DATA, val rd:bi?, val time:Long = 0)
 
 inline fun MK_ECODE(TOP_CODE:Number, SUP_CODE:Number): Int
@@ -120,7 +122,7 @@ fun <bi : Throwable> bi.to_x46FW_err(): Ix46FW_error
 fun Throwable.STACK_TRACE_STR(): String
 {
     wintest()
-    val __msg__ = "(X) ERROR IN '${this.stackTrace?.get(0)?.methodName}' AT (\"${this.stackTrace?.get(0)?.className}.${this.stackTrace?.get(0)?.methodName}(${this.stackTrace?.get(0)?.fileName}:${this.stackTrace?.get(0)?.lineNumber})\")\n\n" +
+    val __msg__ = "(!) ERROR IN '${this.stackTrace?.get(0)?.methodName}' AT (\"${this.stackTrace?.get(0)?.className}.${this.stackTrace?.get(0)?.methodName}(${this.stackTrace?.get(0)?.fileName}:${this.stackTrace?.get(0)?.lineNumber})\")\n\n" +
     "STACK_TRACE:\n{\n\t${this.stackTraceToString().replace("\n\t", "\n\t\t").replace("Caused by:","\tCaused by:")}}\n"
     return __msg__
 }

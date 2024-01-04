@@ -13,11 +13,25 @@ import kotlin.math.abs
 
 fun get_conf() = conf_file.readText(Charsets.US_ASCII)
 
+inline fun delay(millis:Long) = Thread.sleep(millis)
+
 @Suppress("UNCHECKED_CAST")
 fun <bi> dud():bi
 {
     return Any() as bi
 }
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun Any.toObj():JObj
+{
+    return (this as JObj)
+}
+
+val Any.obj:JObj
+    inline get()
+    {
+        return this.toObj()
+    }
 
 fun Number.toSFstring(): String
 {
@@ -153,7 +167,6 @@ fun Array<UByte>.toByte(): Array<Byte>
     }
     return o
 }
-
 
 operator fun Char.times(by:Number):String
 {

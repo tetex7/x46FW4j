@@ -12,6 +12,7 @@ class Qlang_inst(block: Qlang_inst.(tag: String, p: Pattern, ctxt: String) -> St
     }
 
     /**
+     *
      * @return the output string an the #1
      */
     fun work(tag:String, p:Pattern, ctxt: String):Pair<String, Int>

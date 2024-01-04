@@ -1,4 +1,4 @@
-package com.trs.x46FW.internal
+ package com.trs.x46FW.internal
 
 import com.trs.x46FW.utils.*
 
@@ -15,6 +15,20 @@ class x46FW_conf()
         get() = field
 
     var xlog_can:FLAG = true
+        private set(value)
+        {
+            field = value
+        }
+        get() = field
+
+    var dss_can:FLAG = false
+        private set(value)
+        {
+            field = value
+        }
+        get() = field
+
+    var x46fw_args:Array<String> = arrayOf("-x,vr", "--TODO")
         private set(value)
         {
             field = value

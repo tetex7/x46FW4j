@@ -6,10 +6,11 @@ import com.trs.x46FW.internal.wintest
 import java.io.File
 import java.io.InputStream
 import java.util.jar.JarFile
+import java.util.zip.ZipFile
 
 
 fun getJar():JarFile = JarFile(Event::class.java.protectionDomain.codeSource.location.path)
-
+//fun getZip(path: String) = ZipFile(getfile(path))
 
 internal fun filegetr(p: String): String
 {
@@ -50,7 +51,7 @@ fun getfile(path: String): InputStream
 fun getfileA(path: String): List<String>?
 {
     wintest()
-    val d: Any = Object()
+    val d: Any = Any()
     return d.getfileA(path)
 }
 

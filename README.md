@@ -17,12 +17,14 @@
 
 
 <p align="left">
-<img src="https://img.shields.io/badge/Variant-JVM">
+<!--<img src="https://img.shields.io/badge/Variant-JVM">-->
 <!--<a href="https://discord.gg/"><img src="https://img.shields.io/badge/Discord Server-down-important">
 </a>--></p>
 
 # **x46-Framework for JVM**
 AKA, ***The-Framework*** and for legacy purposes, *x46-IPP*. let's get to the meat of it all the x46FW is designed to help the developer **Not To Fight The Dev**.
+
+sdfsdf
 
 <img src="./asst/x46FWlogo.png?raw=true" alt="x46FW logo" align="right" height="250px">
 

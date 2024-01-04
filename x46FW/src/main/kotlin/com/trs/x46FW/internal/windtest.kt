@@ -1,5 +1,7 @@
 //@file:JvmName("<?")
 
+
+
 package com.trs.x46FW.internal
 import com.trs.x46FW.utils.FLAG
 import com.trs.x46FW.utils.Ix46FW_error
@@ -27,11 +29,12 @@ internal inline fun nameof():FLAG
 }
 
 @Suppress("NOTHING_TO_INLINE")
-internal fun wintest()
+internal inline fun oOS_Get():FLAG = ((SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_MAC) && !SystemUtils.IS_OS_LINUX)
+
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun wintest()
 {
-    //callerClassA(btc::class.java, btc::class.java)
-    //btc.df()
-    if((SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_MAC) && WINT)
+    if(oOS_Get() && WINT)
     {
         throw Ix46FW_error()
     }
