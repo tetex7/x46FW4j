@@ -13,9 +13,8 @@ import java.util.regex.Pattern
 import com.trs.x46FW.internal.btc
 
 @x46FW_API
-class Logger: Ithreaded
+class Logger: Ithreaded()
 {
-    override val in_lock:Lock = Lock()
 
 
     companion object
@@ -69,7 +68,7 @@ class Logger: Ithreaded
     private fun mk_file(): PrintStream?
     {
         return t_run RET@{
-            return@RET if (toFile) PrintStream(path_prs()) else null
+            return@RET (if (toFile) PrintStream(path_prs()) else null)!!
         }
 
     }
