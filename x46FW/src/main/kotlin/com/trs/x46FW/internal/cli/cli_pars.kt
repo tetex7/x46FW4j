@@ -1,17 +1,17 @@
-package com.trs.x46FW.utils.cli
+package com.trs.x46FW.internal.cli
 
 import com.trs.x46FW.utils.*
 import org.apache.commons.cli.*
 import kotlin.system.exitProcess
 import java.util.Vector
 
-class cli_pars()
+internal class cli_pars(a:Array<String>)
 {
     private val re:FLAG = false
 
     private var options = Options()
 
-    var args:Array<String> = arrayOf("NOARG")
+    var args: Array<String> = a
 
     var footer_str = "x46FW cli\ngo to the github the docs <www.github.com/tetex7/x46FW4j>"
 

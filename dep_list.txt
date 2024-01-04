@@ -1,3 +1,4 @@
 NOTE: once pass deprecation date NO `.class` file patches or updates will be provided
 
-v1.X: Deprecated on 12:31:2029, patches only
+v1.X: Deprecated on 12/31/2029, patches only
+v2.0LTS: Deprecated on 12/31/2035, patches only
