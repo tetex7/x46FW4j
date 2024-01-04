@@ -2,8 +2,10 @@
 
 package com.trs.x46FW.DSS
 
-import com.trs.x46FW.utils.Event
-import com.trs.x46FW.utils.FLAG
+import com.trs.x46FW.internal.XLOG
+import com.trs.x46FW.internal.x46FW_API
+import com.trs.x46FW.utils.*
+import java.lang.NullPointerException
 import java.util.*
 import kotlin.random.Random
 
@@ -76,33 +78,56 @@ fun Short.toDPRI(): DPRI
  * @see DMAN
  * @author Tete
  */
-interface IDemon
+@x46FW_API
+abstract class IDemon
 {
+
+
     /**
      * the main for demons
      * @see DEM_MK
      */
-    val run:() -> Unit
+    abstract val run:() -> Unit
 
+
+    val d = 0
     /**
      * the name of the demon
      */
-    val work_stack:Stack<Any>
-    val name:String
-    val GNAME:String
-    var DMA:DMAN?
-    var R: FLAG
-    var E: FLAG
-    val D: FLAG
-    val THR:Thread
-    var STAT:TR_STAT
-    val DID:Short
+
+    val kids:hashStrMap<IDemon> = hashStrMap()
+        get() = synchronized(this) { field }
+    abstract var dade:IDemon?
+    val work_stack: Stack<Any?> = Stack()
+        get() = synchronized(this) { field }
+    val kids_stack:Stack<DemonStackData> = Stack()
+        get() = synchronized(this) { field }
+    abstract val name:String
+    abstract val GNAME:String
+    var DMA:DMAN? = null
+        get() = synchronized(this) { field }
+        set(value) = synchronized(this) {
+            field = value
+        }
+    var R: FLAG = false
+        get() = synchronized(this) { field }
+        set(value) = synchronized(this) {
+            field = value
+        }
+    abstract var E: FLAG
+    abstract val D: FLAG
+    abstract val THR:Thread
+    abstract var STAT:TR_STAT
+    abstract val DID:Short
+    abstract var SNK:FLAG
+    abstract val uuid: UUID
 
     /**
      * the priority of [IDemon] for the [DMAN_SCH]
      */
-    var PRI:Short
-    val uuid:UUID
+    abstract var PRI:Short
+
+    abstract val exps: Stack<Throwable?>
 
     /**
      * runs the IDemon on the local [DMAN] through [D]
@@ -134,7 +159,7 @@ interface IDemon
     }
 
     /**
-     * runs the IDemon through a [Event] never hitting a [DMAN] or a [DMAN_SCH]'s stack
+     * runs the IDemon through a [Event] never hitting a [DMAN] or a [DMAN_SCH]'s [Stack]
      * ```kt
      * import com.trs.x46FW.DSS.DEM_MK
      *
@@ -158,6 +183,95 @@ interface IDemon
         val V:Event = Event(true, this.run)
         V()
     }
+
+    fun snk_wait()
+    {
+        if (dade == null)
+        {
+            return
+        }
+        while (this.SNK == ON)
+        {
+            delay(1)
+        }
+    }
+
+    fun mount(kid:IDemon)
+    {
+        if (DMA == null)
+        {
+            return
+        }
+
+        kid.dade = this
+        this.kids.put(kid.name, kid)
+        send(kid.name, "START", "SOS")
+        DMA!!.frun(kid)
+    }
+
+    fun callSNK(kname:String, v:FLAG)
+    {
+        kids[kname]?.SNK = v
+    }
+
+    fun callSNKb(v:FLAG)
+    {
+        dade?.SNK = v
+    }
+
+    fun send(kname:String, info_name:String, data:Any?)
+    {
+        callSNK(kname, ON)
+        kids[kname]?.kids_stack?.push(DemonStackData(info_name, data, this))
+        callSNK(kname, OFF)
+    }
+
+    fun sendB(kname:String, info_name:String, data:Any?)
+    {
+        callSNKb(ON)
+        dade?.kids_stack?.push(DemonStackData(info_name, data, this))
+        callSNKb(OFF)
+    }
+
+
+
+    /*fun addKids(Id:IDemon, F:FLAG = false)
+    {
+        /*if (!Id.R || !F)
+        {
+            throw RuntimeException()
+        }*/
+        if (Id.dade != null)
+        {
+            throw RuntimeException()
+        }
+        else
+        {
+            kids.set(Id.name, Id)
+            Id.dade = this
+            Id.SNK = ON
+            //Id.snk_wait()
+        }
+    }*/
+
+    /*fun rmKids(name:String)
+    {
+        kids[name]?.dade = null
+        kids.remov(name)
+    }
+
+    private fun pushkids(name: String, data:Any?)
+    {
+        kids[name]?.kids_stack?.push(DemonStackData(name, data, this)) ?: throw NullPointerException()
+    }
+
+    private fun pushAll(data:Any?)
+    {
+        for (v in kids)
+        {
+            v.value.kids_stack.push(DemonStackData(name, data, this))
+        }
+    }*/
 
     fun DAT_BLOCK():IDemon_DAT_BLOCK
     {
@@ -206,47 +320,99 @@ const val RESV:Short = -5
  * @see DMAN
  */
 fun DEM_MK(
-        name:String = "DEM-${Random.nextInt(Short.MAX_VALUE.toInt())}",
-        PRI:Short = 0,
-        did:Short = Random.nextInt(Short.MAX_VALUE.toInt()).toShort(),
-        _uuid:UUID = UUID.randomUUID(),
-        block: IDemon.() -> Unit): IDemon {
-    val ID = object : IDemon {
-        override val work_stack: Stack<Any> = Stack<Any>()
-        override val uuid: UUID = _uuid
-        override var R: FLAG = false
+    name:String = "DEM-${Random.nextInt(1441, 94549)}",
+    PRI:Short = 0,
+    did: Short = Random.nextInt(Short.MAX_VALUE.toInt()).toShort(),
+    _uuid:UUID = UUID.randomUUID(),
+    block: IDemon.() -> Unit): IDemon {
+    val ID = object : IDemon() {
+
+        override var exps: Stack<Throwable?> = Stack()
+            get() = synchronized(this) { field }
+            set(value) = synchronized(this) {
+                field = value
+            }
+
         override val name: String = name
-        override var DMA:DMAN? = null
+            get() = synchronized(this) { field }
         override var E: FLAG = false
-            set(value) {
+            set(value) = synchronized(this){
                 field = value
                 if (field)
                 {
                     STAT = TR_STAT.TR_ERR
                 }
             }
+            get() = synchronized(this) { field }
         override val D: FLAG = false
+            get() = synchronized(this) { field }
         override val THR: Thread = Thread.currentThread()
+            get() = synchronized(this) { field }
         override val DID:Short = did
+            get() = synchronized(this) { field }
+        override var SNK: FLAG = OFF
+            get() = synchronized(this) { field }
+            set(value) = synchronized(this) {
+                field = value
+            }
         override var STAT: TR_STAT = TR_STAT.TR_NA
+            get() = synchronized(this) { field }
+            set(value) = synchronized(this) {
+                field = value
+            }
+        override val uuid: UUID = _uuid
+            get() = synchronized(this) { field }
+
         override var PRI:Short = PRI
+            get() = synchronized(this) { field }
+            set(value) = synchronized(this) {
+                field = value
+            }
         override val GNAME: String = "${this.name}-($uuid)-[$DID]"
+            get() = synchronized(this) { field }
+        override var dade: IDemon? = null
+            get() = synchronized(this) { field }
+            set(value) = synchronized(this) {
+                field = value
+            }
+
         override fun toString(): String
         {
             return this.DAT_BLOCK().toString()
         }
+
         override val run: () -> Unit = rRET@{
             R = true
+            this.work_stack.push(0b0101110111010)
+            //this.work_stack.push(this)
+
             STAT = TR_STAT.TR_OK
-            this.block()
+            try
+            {
+                this.block()
+            }
+            catch (e:Throwable)
+            {
+                exps.push(e)
+                R = false
+                E = true
+                //STAT = TR_STAT.TR
+                for (v in exps)
+                {
+                    XLOG.DEBUG(v?.STACK_TRACE_STR()!!)
+                }
+                return@rRET
+            }
             if (E)
             {
                 R = false
                 return@rRET
             }
-            STAT = TR_STAT.TR_STOPED
+            STAT = TR_STAT.TR_ENDED
             R = false
+            return@rRET
         }
+
     }
     return ID
 }

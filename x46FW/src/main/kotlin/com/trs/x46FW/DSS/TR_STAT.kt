@@ -9,7 +9,8 @@ enum class TR_STAT(v:Int)
     //TR_KILL(666),
     TR_STOPED(MK_ECODE(TOP_CODES.DSS_C, 115)),
     TR_ERR(5),
-    TR_OK(3);
+    TR_ENDED(45),
+    TR_OK (3);
 
     override fun toString(): String {
         return super.toString().replace("TR_", "")

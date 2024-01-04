@@ -3,18 +3,14 @@ package com.trs.x46FW.DSS
 
 //import com.trs.x46FW.internal.wintest
 //import com.trs.x46FW.internal.boot
-import com.trs.x46FW.internal.x46FW_API
-import kotlin.concurrent.thread
 import com.trs.x46FW.internal.btc
-import com.trs.x46FW.internal.*
+import com.trs.x46FW.internal.conf
 import com.trs.x46FW.internal.wintest
-import com.trs.x46FW.internal.runID
+import com.trs.x46FW.internal.x46FW_API
 import com.trs.x46FW.utils.*
-import java.util.UUID
-import java.util.Vector
-import java.util.concurrent.ThreadPoolExecutor
+import java.util.*
+import kotlin.concurrent.thread
 import kotlin.random.Random
-import com.trs.x46FW.DSS.*
 
 /**
  * The Demon management
@@ -39,7 +35,7 @@ import com.trs.x46FW.DSS.*
  * @author Tete
  */
 @x46FW_API
-class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549)}]")
+class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(151, 9549)}]", data: DMAN_DAT_BUFF? = null) : JObj()
 {
     companion object
     {
@@ -48,7 +44,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         internal val df = btc.df()
     }
 
-    val MAX_THRD = conf.thr_count()
+    final val MAX_THRD = conf.thr_count()
     val dman_name = __dman_name
         get() {
             return field;
@@ -64,7 +60,17 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         VTHR[TC.arsize]?.name = DA[dstr]?.first?.GNAME!!
         wintest()
         VTHR[TC.arsize]?.start()
-        DA remov dstr
+        //DA remov dstr
+    }
+
+    override fun clone(): DMAN
+    {
+        return super.clone() as DMAN
+    }
+
+    fun push_to_work(name:String, varg:Any)
+    {
+        DA[name]?.first?.work_stack?.push(varg)
     }
 
 
@@ -106,6 +112,11 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         } catch (ex:Exception) {
             false
         }
+    }
+
+    operator fun iterator(): Iterator<IDemon>
+    {
+        return Dman_Iterator(this.DA)
     }
 
     fun huning()
@@ -151,14 +162,14 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
             VTHR[i] = null
             wintest()
         }
-        SCH.nuc()
+        SCH.nuke()
     }
 
     fun killAll()
     {
         wintest()
 
-        for (i in 0..MAX_THRD - 1) {
+        for (i in 0..MAX_THRD.arsize) {
 
             VTHR[i]?.interrupt()
             VTHR[i] = null
@@ -192,8 +203,19 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
     }
 
     private var F_PAS:FLAG = false
+        get() = synchronized(this) RET@{
+            return@RET field
+        }
+        set(value) = synchronized(this) RET@{
+            field = value
+        }
 
-    private fun SHOW() {
+
+    override fun toString(): String = dman_name
+
+
+
+    private val SHOW:() -> Unit = RET_M@{
 
         var stime = 0
         wintest()
@@ -210,7 +232,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         val THR_ACC:()->Unit = RET@{
             if (TC == 0)
             {
-                return@RET;
+                return@RET
             }
 
             val dstr_r = SCH.VET.pop()
@@ -240,18 +262,18 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
             while (F_PAS)
             {
                 wintest()
-                Thread.sleep(20)
+                delay(20)
             }
 
             while (DA.isEmpty()) {
                 wintest()
                 SCH.sch_acc()
-                Thread.sleep(20)
+                delay(20)
             }
 
             while (PAS) {
                 wintest()
-                Thread.sleep(1)
+                delay(1)
                 MAP_C()
                 SCH.sch_acc()
             };
@@ -279,7 +301,8 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
             }
             else {
                 wintest()
-                Thread.sleep(500)
+                //Thread.sleep(500)
+                delay(500)
                 SCH.sch_acc()
                 ACC_F = !ACC_F
 
@@ -290,6 +313,10 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         }
     }
 
+    fun PushTo(name: String, data:Any?)
+    {
+        DA[name]?.first?.kids_stack?.push(DemonStackData(name, data, null))
+    }
 
     infix fun sch_rq(d:IDemon)
     {
@@ -317,7 +344,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
     {
         show_sat_rq()
         DA remov st
-        sch_nuc()
+        sch_nuke()
         NOW_SCH = true
     }
 
@@ -342,7 +369,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         {
             DA remov v.name
         }
-        sch_nuc()
+        sch_nuke()
         NOW_SCH = true
     }
 
@@ -352,7 +379,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         {
             DA remov v
         }
-        sch_nuc()
+        sch_nuke()
         NOW_SCH = true
     }
 
@@ -371,24 +398,26 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         }
     }
 
-    final fun sch_nuc()
+    final fun sch_nuke()
     {
         //synchronized(SCH.SCH_lock)
         //{
             show_sat_rq()
-            SCH.nuc()
+            SCH.nuke()
         //}
     }
+
+
 
     final fun start()
     {
         wintest()
-        VTHR[MAX_THRD] = thread(isDaemon = false, name = this.dman_name, block = {SHOW()})
+        VTHR[MAX_THRD] = thread(isDaemon = false, name = this.dman_name, block = SHOW)
     }
     var PAS: FLAG = false
     private val SCH: DMAN_SCH = DMAN_SCH(this)
         get() = run RET@{
-            synchronized(field.SCH_lock)
+            synchronized(field)
             {
                 return@RET field
             }
@@ -397,16 +426,18 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
     internal val tc_m:Lock = Lock()
     final var TC:Int = MAX_THRD
         get() = run RET@{
-            synchronized(tc_m) {
+            synchronized(this) {
                 return@RET field
             }
         }
-        set(v:Int) = run {
-            synchronized(tc_m)
+        set(v) = run {
+            synchronized(this)
             {
                 field = v
             }
         }
+
+
 
 
     private val VTHR_m = Lock()
@@ -421,13 +452,12 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
 
     val DA:DMAN_DAT_BUFF = DMAN_DAT_BUFF()
         get() = run RET@{
-            synchronized(DA_m)
+            synchronized(this)
             {
                 return@RET field
             }
         }
 
-    private val DA_m:Lock = Lock()
 
     private var NOW_SCH:FLAG = false
 
@@ -439,7 +469,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
     operator fun minus(other: IDemon)
     {
         DA remov other.name
-        SCH.nuc()
+        SCH.nuke()
     }
 
     operator fun times(other: IDemon)
@@ -452,15 +482,41 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         DA remov other.name
     }
 
+    operator fun inc():DMAN
+    {
+        NOW_SCH = true
+        return this
+    }
+
+    val atWork:Int
+        get()
+        {
+            var o = 0
+            for (v in VTHR)
+            {
+                if (v == null)
+                {
+                    continue
+                }
+
+                if (v.isAlive)
+                {
+                    o++
+                }
+            }
+            return o
+        }
+
     val sch_vet:Vector<Pair<String, IDemon>>
         get() = run RET@{
             @Suppress("UNCHECKED_CAST")
+            //@Suppress("removal")
             return@RET (SCH.VET.clone() as Vector<Pair<String, IDemon>>)
         }
 
     init {
         wintest()
-        //tc_m.unlock()
+        //this.unlock()
         if (ST) {
             start()
         }
@@ -499,7 +555,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
 
     operator fun get(index:String): Pair<IDemon, Thread>
     {
-        return synchronized(DA_m) RET@{
+        return synchronized(this) RET@{
             val o = TRY(NO_EX = false, err_box = true, exit = false, code = MK_ECODE(8000, 87), TI = "$index IS NULL") TB@{
                 return@TB DA[index] ?: throw DMAN_err(msg = "IDemon IS NULL", D = this, CA = NullPointerException("IDemon IS NULL"))
             }
@@ -513,15 +569,15 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(0, 9549
         v.DMA = this
         DA[index] = Pair(v, thread(start = false, isDaemon = v.D) {
             wintest()
-                //tc_m.lock()
-            synchronized(tc_m)
+                //this.lock()
+            synchronized(this)
             {
                 TC--
             }
 
             v.run()
 
-            synchronized(tc_m)
+            synchronized(this)
             {
                 TC++
             }

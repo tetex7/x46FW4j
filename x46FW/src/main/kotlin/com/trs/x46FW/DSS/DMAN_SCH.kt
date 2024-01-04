@@ -15,29 +15,30 @@ import com.trs.x46FW.internal.*
  * @see DMAN
  */
 @x46FW_API
-class DMAN_SCH(dvcall: DMAN)
+class DMAN_SCH(dvcall: DMAN) : JObj()
 {
-    final val SCH_lock:Lock = Lock()
+    //final val SCH_lock:Lock = Lock()
 
     val FAS:FLAG = true
 
 
     final var VET = Stack<Pair<String, IDemon>>()
         get() = run RET@{
-            synchronized(SCH_lock)
+            synchronized(this)
             {
                 return@RET field
             }
 
         }
         private set(v) = run RET@{
-            synchronized(SCH_lock)
+            synchronized(this)
             {
                 field = v
             }
+            //this.wait(100010001)
         }
 
-    fun nuc()
+    fun nuke()
     {
         wintest()
         VET = Stack()
@@ -59,16 +60,19 @@ class DMAN_SCH(dvcall: DMAN)
             wintest()
             thread(name = "${vcall.dman_name}_SCH_TASK_$PI")
             {
-                TRY(code = MK_ECODE(TOP_CODES.DSS_C, PI)) {
-                    synchronized(SCH_lock)
+                TRY(code = MK_ECODE(TOP_CODES.DSS_C, PI))
+                {
+                    synchronized(this)
                     {
                         XLOG.DEBUG("PI(${PI})")
                         //schf_mutex.lock()
                         val rd = vcall.DA
-                        //schf_mutex.unlock()
-                        for (i in rd) {
+
+                        for (i in rd)
+                        {
                             wintest()
-                            if (i.value.first.PRI.toInt() == PI) {
+                            if (i.value.first.PRI.toInt() == PI)
+                            {
                                 //println(i)
                                 VET.push(Pair(i.key, i.value.first))
                                 XLOG.DEBUG("PUST DEM_DATA(${i.key}, ${i.value.first.GNAME}) TO VET(Stack<Pair<String, IDemon>>)")

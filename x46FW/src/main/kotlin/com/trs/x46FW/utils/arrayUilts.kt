@@ -6,34 +6,34 @@ import com.trs.x46FW.internal.wintest
 import java.util.*
 
 val Number.arsize:Int
-    inline get() = run RET@{
+    inline get() {
         wintest()
-        return@RET this.toInt() - 1
+        return this.toInt() - 1
     }
 
 val String.rsize:Int
-    inline get() = run RET@{
+    inline get() {
         wintest()
-        return@RET this.length.arsize
+        return this.length.arsize
     }
 
 
 val <bi> Array<bi>.rsize:Int
-    inline get() = run RET@{
+    inline get() {
         wintest()
-        return@RET this.size.arsize
+        return this.size.arsize
     }
 
 val <bi> List<bi>.rsize:Int
-    inline get() = run RET@{
+    inline get() {
         wintest()
-        return@RET this.size.arsize
+        return this.size.arsize
     }
 
-val <bi> Vector<bi>.rsize
-    inline get() = run RET@{
+val <bi> Vector<bi>.rsize:Int
+    inline get() {
         wintest()
-        return@RET this.size.arsize
+        return this.size.arsize
     }
 
 inline fun <bi> Array<bi>.last(): bi

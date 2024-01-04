@@ -1,8 +1,6 @@
 package com.trs.x46FW.DSS
 
-import com.trs.x46FW.DSS.DEM_MK
-import com.trs.x46FW.DSS.DMAN
-import com.trs.x46FW.DSS.RESV
+import com.trs.x46FW.internal.XLOG
 //import com.trs.x46FW.internal.XDMAN
 import org.junit.jupiter.api.Test
 
@@ -64,9 +62,9 @@ class DMAN_test
 
         val Dt2 = DEM_MK(name = "dt2") {
             println(this.THR.name)//Thread.currentThread().name)
-            for (i in 0..200)
+            while (R)
             {
-                println("d2 $i")
+                println(this.kids_stack.pop())
             }
         }
         println(Dt2)
@@ -76,9 +74,16 @@ class DMAN_test
         //Thread.sleep(800)
         val id = DEM_MK(name = "frun_test", PRI = RESV) RET@{
             this.E = true
+
             println(Thread.currentThread().name)
             println(this)
+            //this.addKids(Dt2)
             return@RET
+        }
+
+        for (v in d)
+        {
+            XLOG.DEBUG(v.toString())
         }
 
 

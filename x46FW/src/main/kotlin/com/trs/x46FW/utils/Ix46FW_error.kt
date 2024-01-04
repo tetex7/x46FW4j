@@ -11,11 +11,11 @@ import com.trs.x46FW.internal.x46FW_API
 class Ix46FW_error(msg: String, CA:Throwable? = null, sup:Boolean = false) : Throwable(msg, CA, sup, true) //Throwable(msg, CA)
 {
     val CAS = super.cause
-    val MSG:String;
+    val MSG:String = msg;
     constructor() : this("NO_MSG")
     init
     {
         wintest()
-        this.MSG = msg
+        //this.MSG = msg
     }
 }

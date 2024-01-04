@@ -11,7 +11,7 @@ import org.jetbrains.kotlin.gradle.plugin.extraProperties
 
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    kotlin("jvm") version "1.9.0-Beta"
+    kotlin("jvm") version "2.0.0-Beta1"
     id ("org.jetbrains.kotlin.plugin.allopen").version("1.8.22")
 
     // Apply the application plugin to add support for building a CLI application in Java.
@@ -61,7 +61,7 @@ dependencies {
 
 
 kotlin {
-    jvmToolchain(20)
+    jvmToolchain(21)
     //this.compilerOptions.freeCompilerArgs.add("--enable-native-access=ALL-UNNAMED")
 }
 

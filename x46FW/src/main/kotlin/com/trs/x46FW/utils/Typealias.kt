@@ -14,13 +14,26 @@ typealias FLAG = Boolean
 
 typealias JString = java.lang.String
 typealias JInt = java.lang.Integer
+typealias JObj = java.lang.Object
 
 /**
  * a dummy object for [synchronized]
  */
 typealias Lock = Any
 
+typealias int = Int
+typealias bool = Boolean
+typealias byte = Byte
+typealias long = Long
+typealias short = Short
+
+const val OFF = false
+const val ON = true
+
+
 internal typealias DMAN_DAT_BUFF = HashMap<String, Pair<IDemon, Thread>>
+
+typealias hashStrMap<bi> = HashMap<String, bi>
 
 typealias  ref<bi> = Reference<bi>
 

@@ -4,7 +4,7 @@ import com.trs.x46FW.utils.FLAG
 import com.trs.x46FW.utils.qlang.Qlang
 import com.google.gson.*
 import com.trs.x46FW.utils.get_conf
-import com.trs.x46FW.utils.qlang.libstd.p_user_conf
+import com.trs.x46FW.utils.qlang.libstd.*
 import java.io.File
 
 
@@ -22,11 +22,7 @@ import java.io.File
 }*/
 internal var conf:x46FW_conf = x46FW_conf()
 
-internal var WINT: FLAG = false
-    get() = field
-    private set(v: FLAG) {
-        field = v
-    }
+internal const val WINT: FLAG = true
 internal var conf_file_q:Qlang = Qlang.Builder().bulid()
 internal val conf_file = File(conf_file_q("${p_user_conf}/x46FW_conf.json").first)
 
@@ -35,7 +31,7 @@ fun boot(): Int
 
     if (!XBOOT)
     {
-        WINT = true
+        //WINT = true
         XBOOT = true
 
 
@@ -55,7 +51,7 @@ fun boot(): Int
         XLOG.log_debug = conf.xlog_debug
         XLOG.DEBUG("\n${get_conf()}")
         XLOG.DEBUG("DMAN(MAX_THRD) = ${conf.thr_count()}")
-        println(XLOG.log_path)
+        //println(XLOG.log_path)
 
     }
     else
