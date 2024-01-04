@@ -41,6 +41,8 @@ bin/
 ### Mac OS ###
 .DS_Store
 
+.idea/
+
 x46FW/src/test/kotlin/com/trs/x46FW/utils/json/
 
 x46FW/src/main/kotlin/com/trs/x46FW/utils/json/
