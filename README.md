@@ -39,6 +39,20 @@ info about deprecation of older versions see [the deprecation list](./dep_list.t
 ##   ###   ##
 -->
 
+### Java17??
+support for Java 17 will come someday as its own separate version of the library.
+that probably differs slightly and updates with comes slower because of backports.
+
+### WTF it just crash on WindowsNT and MacOS
+yes it did lol.
+x46FW4j will not work on WindowsNT and MacOS it will only work on Linux.
+BSD is on tested but highly probable it will work.  
+
+
+I WILL NOT MAKE A VERSION THAT WORKS ON WINDOWS OR MAC-OS but you can compile it yourself to work you.
+just have to change a value in the boot.kt file in the internals package the value is WINT flag
+
+
 It is designed to work with every project from Robots to Little Gadgets in this instance ***The JVM***
 <!-- <a href="./documentation"><h3>More Info in The Documentation.</h3></a>
 <h3>More Documentation Comeing Soon.</h3> -->

@@ -20,12 +20,17 @@ plugins {
 
 
 val PRER = true
+val LTS = false
 val VID = "2.4"
 val PRER_V = VID
 
 
 group = "com.trs.x46FW"
-version = if (PRER) "$PRER_V-SNAPSHOT" else VID
+version = run {
+    val fp1 = if (PRER) "$PRER_V-SNAPSHOT" else VID
+    val sp1 = if (LTS) "$fp1-LTS" else fp1
+    return@run sp1
+}
 
 repositories {
     // Use Maven Central for resolving dependencies.
