@@ -60,6 +60,13 @@ it is highly probable that it will crash if you change this value, but it will n
 at this time this is a passion project and will be very crazy into a community can form around it and help standardized
 also I am not the greatest at maintaining a constant coding convention but I try
 
+## The Roadmap
+
+1. more optimization on the DSS
+2. creating some form of scripting language for the DSS scheduler
+3. and etc
+
+
 It is designed to work with every project from Robots to Little Gadgets in this instance ***The JVM***
 <!-- <a href="./documentation"><h3>More Info in The Documentation.</h3></a>
 <h3>More Documentation Comeing Soon.</h3> -->
