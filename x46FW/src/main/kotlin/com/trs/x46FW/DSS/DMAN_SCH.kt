@@ -6,6 +6,8 @@ import com.trs.x46FW.internal.x46FW_API
 import java.util.*
 import kotlin.concurrent.thread
 import com.trs.x46FW.internal.*
+import com.trs.x46FW.utils.exception.MK_ECODE
+import com.trs.x46FW.utils.exception.TRY
 
 
 //import kotlinx.
@@ -14,7 +16,6 @@ import com.trs.x46FW.internal.*
  * @param dvcall the local ctx for scheduling
  * @see DMAN
  */
-@x46FW_API
 class DMAN_SCH(dvcall: DMAN) : JObj()
 {
     //final val SCH_lock:Lock = Lock()
@@ -22,7 +23,7 @@ class DMAN_SCH(dvcall: DMAN) : JObj()
     val FAS:FLAG = true
 
 
-    final var VET = Stack<Pair<String, IDemon>>()
+    var VET = Stack<Pair<String, IDemon>>()
         get() = run RET@{
             synchronized(this)
             {
@@ -52,7 +53,44 @@ class DMAN_SCH(dvcall: DMAN) : JObj()
         this.sch_acc()
     }
 
-    fun sch_acc()
+    fun pre_sch_acc()
+    {
+        val PRI_M = conf.thr_PRI()
+        for (PI in PRI_M downTo PRI_M - 4)
+        {
+            wintest()
+            thread(name = "${vcall.dman_name}_PRE_SCH_TASK_$PI")
+            {
+                TRY(code = MK_ECODE(TOP_CODES.DSS_C, PI))
+                {
+                    synchronized(this)
+                    {
+                        XLOG.DEBUG("PI(${PI})")
+                        //schf_mutex.lock()
+                        val rd = vcall.DA
+
+                        for (i in rd)
+                        {
+                            if (VET.seekf(i.key) != null)
+                            {
+                                continue
+                            }
+                            wintest()
+                            if (i.value.first.PRI.toInt() == PI)
+                            {
+                                //println(i)
+                                VET.push(Pair(i.key, i.value.first))
+                                XLOG.DEBUG("PUST DEM_DATA(${i.key}, ${i.value.first.GNAME}) TO VET(Stack<Pair<String, IDemon>>)")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    open fun sch_acc()
     {
         //val lock:Lock = Lock()
         for (PI in conf.thr_PRI() downTo 0)

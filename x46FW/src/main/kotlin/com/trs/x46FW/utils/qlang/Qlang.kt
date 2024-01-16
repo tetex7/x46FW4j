@@ -79,7 +79,7 @@ class Qlang
         this[q_nntap] = { tag:String, p:Pattern, ctxt:String -> "\n\t" }
     }
 
-    internal var is_std:FLAG = false
+    private var is_std:FLAG = false
 
     fun initLibSTD()
     {

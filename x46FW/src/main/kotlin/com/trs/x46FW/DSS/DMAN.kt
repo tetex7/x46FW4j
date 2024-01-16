@@ -8,6 +8,8 @@ import com.trs.x46FW.internal.conf
 import com.trs.x46FW.internal.wintest
 import com.trs.x46FW.internal.x46FW_API
 import com.trs.x46FW.utils.*
+import com.trs.x46FW.utils.exception.MK_ECODE
+import com.trs.x46FW.utils.exception.TRY
 import java.util.*
 import kotlin.concurrent.thread
 import kotlin.random.Random
@@ -42,6 +44,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(151, 95
         const val MAX_THRD_q = 10
         //const val MAX_THRD_AOC = 100
         internal val df = btc.df()
+        val DMAN_NULL = dud<DMAN>()
     }
 
     final val MAX_THRD = conf.thr_count()
@@ -54,7 +57,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(151, 95
     {
         if (TC == 0)
         {
-            throw OutThreaded_err(this)
+            throw OutThreadedException(this)
         }
         VTHR[TC.arsize] = DA[dstr]?.second!!
         VTHR[TC.arsize]?.name = DA[dstr]?.first?.GNAME!!
@@ -177,6 +180,10 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(151, 95
         }
     }
 
+    fun canAoc():FLAG = ((TC >= MAX_THRD) && (TC != 0))
+
+    fun isFull():FLAG = (TC == 0)
+
     infix fun frun_rq(name_str:String)
     {
 
@@ -232,6 +239,7 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(151, 95
         val THR_ACC:()->Unit = RET@{
             if (TC == 0)
             {
+                SCH.pre_sch_acc()
                 return@RET
             }
 
@@ -243,13 +251,13 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(151, 95
             {
                 wintest()
             }
-            else if ((TC >= MAX_THRD) && (TC != 0))
+            else if (canAoc())
             {
                 ther_aoc(dstr)
             }
             else
             {
-                throw DMAN_err("TC error", this)
+                throw DMAN_Exception("TC error", this)
             }
         }
         while (true) {
@@ -290,6 +298,11 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(151, 95
 
 
             if (!ACC_F) {
+                if (isFull())
+                {
+                    SCH.pre_sch_acc()
+                    continue
+                }
                 try {
                     wintest()
                     THR_ACC()
@@ -557,9 +570,9 @@ class DMAN(ST: FLAG = true, __dman_name:String = "DMAN[${Random.nextLong(151, 95
     {
         return synchronized(this) RET@{
             val o = TRY(NO_EX = false, err_box = true, exit = false, code = MK_ECODE(8000, 87), TI = "$index IS NULL") TB@{
-                return@TB DA[index] ?: throw DMAN_err(msg = "IDemon IS NULL", D = this, CA = NullPointerException("IDemon IS NULL"))
+                return@TB DA[index] ?: throw DMAN_Exception(msg = "IDemon IS NULL", D = this, CA = NullPointerException("IDemon IS NULL"))
             }
-            return@RET o.rd ?: throw DMAN_err(msg = "IDemon IS NULL", D = this, CA = NullPointerException("IDemon IS NULL"))
+            return@RET o.rd ?: throw DMAN_Exception(msg = "IDemon IS NULL", D = this, CA = NullPointerException("IDemon IS NULL"))
         }
     }
 

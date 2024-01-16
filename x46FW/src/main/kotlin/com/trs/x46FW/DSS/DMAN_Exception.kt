@@ -1,12 +1,11 @@
 package com.trs.x46FW.DSS
 
-import com.trs.x46FW.utils.Ix46FW_error
+import com.trs.x46FW.utils.exception.Ix46FWException
 import com.trs.x46FW.utils.arsize
 import com.trs.x46FW.internal.x46FW_API
-import com.trs.x46FW.utils.JObj
 
 @x46FW_API
-class DMAN_err(msg:String, D:DMAN, CA:Throwable? = null) : Ix46FW_error(msg, CA)
+class DMAN_Exception(msg:String, D:DMAN, CA:Throwable? = null) : Ix46FWException(msg, CA)
 {
 
     val SD = D

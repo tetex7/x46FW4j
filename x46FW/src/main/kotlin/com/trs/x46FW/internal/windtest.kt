@@ -4,7 +4,7 @@
 
 package com.trs.x46FW.internal
 import com.trs.x46FW.utils.FLAG
-import com.trs.x46FW.utils.Ix46FW_error
+import com.trs.x46FW.utils.exception.Ix46FWException
 //import jdk.internal.reflect.Reflection
 import org.apache.commons.lang3.SystemUtils
 
@@ -36,7 +36,7 @@ internal inline fun wintest()
 {
     if(oOS_Get() && WINT)
     {
-        throw Ix46FW_error()
+        throw Ix46FWException()
     }
     else
     {

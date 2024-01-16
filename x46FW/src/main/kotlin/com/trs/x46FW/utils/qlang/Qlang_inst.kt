@@ -4,7 +4,7 @@ import java.util.regex.Pattern
 
 class Qlang_inst(block: Qlang_inst.(tag: String, p: Pattern, ctxt: String) -> String, p:Regex)
 {
-    private var __work:Qlang_inst.(tag:String, p:Pattern, ctxt: String)->String
+    private var __work:Qlang_inst.(tag:String, p:Pattern, ctxt: String)->String = block
     val regex:Regex = p
     fun rep(txt:String):String
     {
@@ -20,9 +20,4 @@ class Qlang_inst(block: Qlang_inst.(tag: String, p: Pattern, ctxt: String) -> St
         return Pair(__work(tag, p, ctxt), 1)
     }
     constructor(block: Qlang_inst.(tag: String, p: Pattern, ctxt: String) -> String) : this(block, Regex("not dep"))
-
-    init
-    {
-        __work = block
-    }
 }

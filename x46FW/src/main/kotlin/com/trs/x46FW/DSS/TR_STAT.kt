@@ -1,6 +1,6 @@
 package com.trs.x46FW.DSS
 
-import com.trs.x46FW.utils.MK_ECODE
+import com.trs.x46FW.utils.exception.MK_ECODE
 import com.trs.x46FW.utils.TOP_CODES
 
 enum class TR_STAT(v:Int)

@@ -3,10 +3,10 @@
 package com.trs.x46FW.utils
 //import com.trs.x46FW.DSS.wintest
 import com.trs.x46FW.internal.wintest
-import java.io.File
+import com.trs.x46FW.utils.exception.MK_ECODE
+import com.trs.x46FW.utils.exception.TRY
 import java.io.InputStream
 import java.util.jar.JarFile
-import java.util.zip.ZipFile
 
 
 fun getJar():JarFile = JarFile(Event::class.java.protectionDomain.codeSource.location.path)

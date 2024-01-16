@@ -4,11 +4,5 @@ abstract class Ithreaded
 {
     val in_lock: Lock = Lock()
 
-    fun <bi : Any> t_run(bl:() -> bi):bi
-    {
-        return synchronized(in_lock) RET@{
-            return@RET bl()
-        }
-
-    }
+    inline fun <bi> t_run(bl:() -> bi):bi = synchronized(in_lock, bl)
 }

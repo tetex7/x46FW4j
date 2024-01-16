@@ -6,19 +6,23 @@ package com.trs.x46FW.utils
 //import com.trs.x46FW.DSS.wintest
 import com.trs.x46FW.internal.conf_file
 import com.trs.x46FW.internal.wintest
+//import com.trs.x46FW.tlang.ValData
 import java.io.File
 import java.io.OutputStreamWriter
+import java.util.*
+import kotlin.collections.HashMap
 
 import kotlin.math.abs
 
 fun get_conf() = conf_file.readText(Charsets.US_ASCII)
+
 
 inline fun delay(millis:Long) = Thread.sleep(millis)
 
 @Suppress("UNCHECKED_CAST")
 fun <bi> dud():bi
 {
-    return Any() as bi
+    return null as bi
 }
 
 @Suppress("NOTHING_TO_INLINE")
@@ -37,11 +41,34 @@ fun Number.toSFstring(): String
 {
     return if(this.toInt() < 10) "0${this.toInt()}" else this.toInt().toString()
 }
+fun <bi, vet_obj : Vector<Pair<String, bi>>> vet_obj.seekf(str:String, offSet:Int = 0): Pair<String, bi>?
+{
+    for (i in offSet .. this.size)
+    {
+        if (this[i].first == str)
+        {
+            return this[i]
+        }
+    }
+    return null
+}
 
-
+fun <bi, vet_obj : Vector<Pair<String, bi>>> vet_obj.seek(str:String, offSet:Int = 0): bi?
+{
+    for (i in offSet .. this.size)
+    {
+         if (this[i].first == str) return this[i].second
+    }
+    return null
+}
 fun Boolean.toStrY():String
 {
     return if (this) "YES" else "NO"
+}
+
+fun Boolean.toStrOff():String
+{
+    return if(this) "NO" else "OFF"
 }
 
 fun SWITCH(value: Boolean):Boolean = !value
@@ -61,6 +88,10 @@ val Boolean.YorN:String
         return toStrY()
     }
 
+val Boolean.NorO:String
+    inline get(){
+        return toStrOff()
+    }
 
 fun Char.toSH(): Short
 {

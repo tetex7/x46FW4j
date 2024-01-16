@@ -28,7 +28,7 @@ class x46FW_conf()
         }
         get() = field
 
-    var x46fw_args:Array<String> = arrayOf("-x,vr", "--TODO")
+    var x46fw_args:Array<String> = arrayOf("-em,dss", "--TODO")
         private set(value)
         {
             field = value

@@ -113,3 +113,6 @@ inline fun <bi> Vector<bi>.first(): bi
     wintest()
     return this[0]
 }
+
+inline fun <bi> Vector<bi>.toStack() = this as Stack<bi>
+inline fun <bi> Stack<bi>.toVector() = this as Vector<bi>

@@ -67,8 +67,8 @@ class Logger: Ithreaded()
     var toCAN:FLAG = true
     private fun mk_file(): PrintStream?
     {
-        return t_run RET@{
-            return@RET (if (toFile) PrintStream(path_prs()) else null)!!
+        return t_run  RET@{
+            return@RET (if (toFile) PrintStream(path_prs()) else null)
         }
 
     }

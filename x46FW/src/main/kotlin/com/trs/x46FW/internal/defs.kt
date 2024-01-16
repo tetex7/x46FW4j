@@ -21,4 +21,10 @@ internal val XLOG:Logger = lb.file(true)
     .head("[x46FW]-${lb.logHaed}")
     .CAN(conf.xlog_can)
     .file(conf.xlog_file)
-    .build()
+    .build().run {
+        if (!WINT)
+        {
+            this.WARNING("\nX46FW WARNING: WINT IS OFF\nthis is not recommended\nunintended side effects are likely")
+        }
+        return@run this
+    }

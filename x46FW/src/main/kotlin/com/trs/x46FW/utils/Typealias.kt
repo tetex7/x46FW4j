@@ -30,10 +30,15 @@ typealias short = Short
 const val OFF = false
 const val ON = true
 
+const val YES = true
+const val NO = false
+
+const val F_SET = true
+const val F_UNSET = false
 
 internal typealias DMAN_DAT_BUFF = HashMap<String, Pair<IDemon, Thread>>
 
-typealias hashStrMap<bi> = HashMap<String, bi>
+typealias hStrMap<bi> = HashMap<String, bi>
 
 typealias  ref<bi> = Reference<bi>
 

@@ -1,25 +1,24 @@
 @file:JvmName("expUtils")
 @file:Suppress("NOTHING_TO_INLINE", "NON_PUBLIC_CALL_FROM_PUBLIC_INLINE")
-package com.trs.x46FW.utils
+package com.trs.x46FW.utils.exception
 
 //mport com.trs.disasm.lexer.INP_STAT
 import com.trs.x46FW.internal.XLOG
 import com.trs.x46FW.internal.wintest
-import com.trs.x46FW.internal.x46FW_API
 import com.trs.x46FW.ui.error_box
-import java.lang.AssertionError
+import com.trs.x46FW.utils.FLAG
+import com.trs.x46FW.utils.TOP_CODES
 import kotlin.concurrent.thread
 import kotlin.random.Random
 import kotlin.system.exitProcess
-import kotlin.system.measureTimeMillis
 import java.util.*
 
 val EX_STACK:Stack<Throwable> = Stack()
 
-data class EX_DATA(val row_ex:Throwable?, val cex: Ix46FW_error? = row_ex?.to_x46FW_err())
+data class EX_DATA(val row_ex:Throwable?, val cex: Ix46FWException? = row_ex?.to_x46FW_err())
 
 
-data class TRY_DATA<out bi>(val exed:FLAG, val ex_data: EX_DATA, val rd:bi?, val time:Long = 0)
+data class TRY_DATA<out bi>(val exed: FLAG, val ex_data: EX_DATA, val rd:bi?, val time:Long = 0)
 
 inline fun MK_ECODE(TOP_CODE:Number, SUP_CODE:Number): Int
 {
@@ -27,7 +26,7 @@ inline fun MK_ECODE(TOP_CODE:Number, SUP_CODE:Number): Int
     return (TOP_CODE.toInt() + SUP_CODE.toInt())
 }
 
-inline fun MK_ECODE(TOP_CODE:TOP_CODES, SUP_CODE:Number): Int
+inline fun MK_ECODE(TOP_CODE: TOP_CODES, SUP_CODE:Number): Int
 {
     wintest()
     return (TOP_CODE + SUP_CODE.toInt())
@@ -99,17 +98,17 @@ inline fun exp(ex:Throwable, msg_pt:String, msg_box:Boolean = false, exit:Boolea
     }
 }
 
-fun <bi : Throwable> bi.to_x46FW_err(): Ix46FW_error
+fun <bi : Throwable> bi.to_x46FW_err(): Ix46FWException
 {
-    if (Ix46FW_error::class.java.isAssignableFrom(this::class.java))
+    if (Ix46FWException::class.java.isAssignableFrom(this::class.java))
     {
         //@Suppress("UNCHECKED_CAST")
-        return this as Ix46FW_error
+        return this as Ix46FWException
 
     }
     val m = this.message ?: "NO_MGS"
     val _e = this
-    val e = Ix46FW_error(m, _e)
+    val e = Ix46FWException(m, _e)
     /*if (e.CAS != null)
     {
         val est = e.stackTrace.clone()
@@ -140,6 +139,10 @@ fun <bi> TRY(NO_EX: FLAG = false, err_box: FLAG = false, exit: FLAG = true, code
         }
         catch (ex: Throwable)
         {
+            if (ex is Error || ex is IError)
+            {
+                exp(ex, ex.message ?: "NO_MSG", err_box, true, code, TI)
+            }
             EX_STACK.push(ex)
             if (NO_EX) {
                 //error_box(ex.to_disasm_err().MSG, false, code, TI)

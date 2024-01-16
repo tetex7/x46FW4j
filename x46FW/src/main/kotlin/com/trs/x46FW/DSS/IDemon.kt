@@ -5,7 +5,7 @@ package com.trs.x46FW.DSS
 import com.trs.x46FW.internal.XLOG
 import com.trs.x46FW.internal.x46FW_API
 import com.trs.x46FW.utils.*
-import java.lang.NullPointerException
+import com.trs.x46FW.utils.exception.STACK_TRACE_STR
 import java.util.*
 import kotlin.random.Random
 
@@ -79,7 +79,7 @@ fun Short.toDPRI(): DPRI
  * @author Tete
  */
 @x46FW_API
-abstract class IDemon
+abstract class IDemon : Ithreaded()
 {
 
 
@@ -95,9 +95,13 @@ abstract class IDemon
      * the name of the demon
      */
 
-    val kids:hashStrMap<IDemon> = hashStrMap()
+    val kids:hStrMap<IDemon> = hStrMap()
         get() = synchronized(this) { field }
-    abstract var dade:IDemon?
+    var dade:IDemon? = null
+        get() = synchronized(this) { field }
+        set(value) = synchronized(this) {
+            field = value
+        }
     val work_stack: Stack<Any?> = Stack()
         get() = synchronized(this) { field }
     val kids_stack:Stack<DemonStackData> = Stack()
@@ -114,12 +118,30 @@ abstract class IDemon
         set(value) = synchronized(this) {
             field = value
         }
-    abstract var E: FLAG
-    abstract val D: FLAG
-    abstract val THR:Thread
-    abstract var STAT:TR_STAT
+    var E: FLAG = false
+        set(value) = synchronized(this){
+            field = value
+            if (field)
+            {
+                STAT = TR_STAT.TR_ERR
+            }
+        }
+        get() = synchronized(this) { field }
+    val D: FLAG = false
+        get() = synchronized(this) { field }
+    val THR: Thread = Thread.currentThread()
+        get() = synchronized(this) { field }
+    var STAT: TR_STAT = TR_STAT.TR_NA
+        get() = synchronized(this) { field }
+        set(value) = synchronized(this) {
+            field = value
+        }
     abstract val DID:Short
-    abstract var SNK:FLAG
+    var SNK:FLAG = false
+        get() = synchronized(this) { field }
+        set(value) = synchronized(this) {
+            field = value
+        }
     abstract val uuid: UUID
 
     /**
@@ -127,7 +149,11 @@ abstract class IDemon
      */
     abstract var PRI:Short
 
-    abstract val exps: Stack<Throwable?>
+    var exps: Stack<Throwable?> = Stack()
+        get() = synchronized(this) { field }
+        set(value) = synchronized(this) {
+            field = value
+        }
 
     /**
      * runs the IDemon on the local [DMAN] through [D]
@@ -204,7 +230,7 @@ abstract class IDemon
         }
 
         kid.dade = this
-        this.kids.put(kid.name, kid)
+        this.kids[kid.name] = kid
         send(kid.name, "START", "SOS")
         DMA!!.frun(kid)
     }
@@ -288,6 +314,11 @@ abstract class IDemon
                 GNAME
         )
     }
+
+    override fun toString(): String
+    {
+        return this.GNAME
+    }
 }
 
 const val RESV:Short = -5
@@ -327,39 +358,11 @@ fun DEM_MK(
     block: IDemon.() -> Unit): IDemon {
     val ID = object : IDemon() {
 
-        override var exps: Stack<Throwable?> = Stack()
-            get() = synchronized(this) { field }
-            set(value) = synchronized(this) {
-                field = value
-            }
-
         override val name: String = name
             get() = synchronized(this) { field }
-        override var E: FLAG = false
-            set(value) = synchronized(this){
-                field = value
-                if (field)
-                {
-                    STAT = TR_STAT.TR_ERR
-                }
-            }
-            get() = synchronized(this) { field }
-        override val D: FLAG = false
-            get() = synchronized(this) { field }
-        override val THR: Thread = Thread.currentThread()
-            get() = synchronized(this) { field }
+
         override val DID:Short = did
             get() = synchronized(this) { field }
-        override var SNK: FLAG = OFF
-            get() = synchronized(this) { field }
-            set(value) = synchronized(this) {
-                field = value
-            }
-        override var STAT: TR_STAT = TR_STAT.TR_NA
-            get() = synchronized(this) { field }
-            set(value) = synchronized(this) {
-                field = value
-            }
         override val uuid: UUID = _uuid
             get() = synchronized(this) { field }
 
@@ -370,16 +373,6 @@ fun DEM_MK(
             }
         override val GNAME: String = "${this.name}-($uuid)-[$DID]"
             get() = synchronized(this) { field }
-        override var dade: IDemon? = null
-            get() = synchronized(this) { field }
-            set(value) = synchronized(this) {
-                field = value
-            }
-
-        override fun toString(): String
-        {
-            return this.DAT_BLOCK().toString()
-        }
 
         override val run: () -> Unit = rRET@{
             R = true

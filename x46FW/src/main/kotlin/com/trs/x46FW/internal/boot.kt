@@ -28,7 +28,6 @@ internal val conf_file = File(conf_file_q("${p_user_conf}/x46FW_conf.json").firs
 
 fun boot(): Int
 {
-
     if (!XBOOT)
     {
         //WINT = true
