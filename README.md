@@ -68,5 +68,5 @@ also I am not the greatest at maintaining a constant coding convention but I try
 
 
 It is designed to work with every project from Robots to Little Gadgets in this instance ***The JVM***
-# [More Documentation Comeing Soon](/docs).
+## [More Documentation Comeing Soon](/docs).
 <!-- <a href="./documentation"><h3>More Info in The Documentation.</h3></a> -->
